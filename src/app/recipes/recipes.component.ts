@@ -14,13 +14,8 @@ export class RecipesComponent implements OnInit {
   }
 
   ngOnInit() {
-
-    //Auth
-    const headers = new HttpHeaders({
-      'Authorization': `Bearer ${localStorage.getItem('token')}`
-    })
-
-    this.http.get('http://127.0.0.1:8000/api/user', {headers: headers}).subscribe((res: any) => {
+    
+    this.http.get('http://127.0.0.1:8000/api/user').subscribe((res: any) => {
      this.recipeService.currentUser.next(res);
       //fetch bookmarks
       this.recipeService.fetchBookmarks();

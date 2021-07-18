@@ -4,8 +4,9 @@ import {FormsModule} from "@angular/forms";
 import {LoginFormComponent} from "./login-form/login-form.component";
 import {RegisterFormComponent} from "./register-form/register-form.component";
 import {AuthComponent} from "./auth.component";
-import {HttpClientModule} from "@angular/common/http";
+import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {AppRoutingModule} from "../app-routing.module";
+import {AuthInterceptorService} from "./auth-interceptor.service";
 
 
 
@@ -21,6 +22,12 @@ import {AppRoutingModule} from "../app-routing.module";
     HttpClientModule,
     AppRoutingModule
   ],
-  providers:[]
+  providers:[
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptorService,
+      multi: true
+    }
+  ]
 })
 export class AuthModule { }
