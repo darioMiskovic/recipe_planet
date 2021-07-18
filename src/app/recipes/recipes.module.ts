@@ -4,10 +4,11 @@ import {RecipeSearchResultsComponent} from "./recipe-search-results/recipe-searc
 import {RecipesComponent} from "./recipes.component";
 import {AddRecipeComponent} from "./add-recipe/add-recipe.component";
 import {RecipeComponent} from "./recipe/recipe.component";
-import {HttpClientModule} from "@angular/common/http";
+import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {AppRoutingModule} from "../app-routing.module";
 import {ReactiveFormsModule} from "@angular/forms";
 import {SharedModule} from "../shared/shared.module";
+import {RecipeInterceptorService} from "./recipe-interceptor.service";
 
 @NgModule({
   declarations:[
@@ -24,6 +25,14 @@ import {SharedModule} from "../shared/shared.module";
     ReactiveFormsModule,
     SharedModule
   ],
+
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: RecipeInterceptorService,
+      multi: true
+    }
+  ]
 })
 
 export class RecipesModule{}

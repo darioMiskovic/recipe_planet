@@ -14,7 +14,7 @@ export class RecipesComponent implements OnInit {
   }
 
   ngOnInit() {
-    
+
     this.http.get('http://127.0.0.1:8000/api/user').subscribe((res: any) => {
      this.recipeService.currentUser.next(res);
       //fetch bookmarks

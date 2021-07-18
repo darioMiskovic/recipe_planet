@@ -80,13 +80,13 @@ export class RecipesService {
     })
   }
 
-  removeBookmark(id: string){
-    this.myBookmarks.splice(+id,1);
+  removeBookmark(removeBookmarkID: string){
+    const removeIndex = this.myBookmarks.findIndex(bookmark => bookmark.id === removeBookmarkID);
+    this.myBookmarks.splice(removeIndex, 1);
     const bookmarksArrStringify = this.myBookmarks.map(bm => JSON.stringify(bm)+'<>').join('');
 
     this.http.post('http://127.0.0.1:8000/api/bookmark/delete', {
-      bookmarks: bookmarksArrStringify,
-      currentUserID: this.currentUserID
+      bookmarks: bookmarksArrStringify
     }).subscribe((res:any) => {
       console.log(res);
       this.myBookmarksUpdated.next(this.myBookmarks);

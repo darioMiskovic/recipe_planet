@@ -1,0 +1,22 @@
+<form #f="ngForm" (ngSubmit)="onSubmit(f)" class="userFormBox">
+  <img src="../../../assets/img/favicon.png" alt="logo">
+
+  <label for="first_name">First Name</label>
+  <input ngModel name="first_name" type="text" id="first_name"/>
+
+  <label for="last_name">Last Name</label>
+  <input ngModel required name="last_name" type="text" id="last_name"/>
+
+  <label for="email">Email</label>
+  <input ngModel required email name="email" type="email" id="email"/>
+
+  <label for="password">Password</label>
+  <input ngModel required minlength="6" name="password" type="password" id="password"/>
+
+  <label for="repeat_password">Repeat Password</label>
+  <input ngModel required minlength="6" name="repeat_password" type="password" id="repeat_password"/>
+
+  <button class="btn" type="submit">Sign Up</button>
+
+  <a class="accQuest" [routerLink]="['/login']">Already have account? Sign In</a>
+</form>

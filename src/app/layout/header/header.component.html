@@ -27,7 +27,7 @@
         </button>
         <div class="bookmarks">
           <ul class="bookmarks__list">
-            <div class="message" *ngIf="!bookmarks">
+            <div class="message" *ngIf="!bookmarks || bookmarks.length < 1">
               <div>
                 <svg>
                   <use href="../assets/img/icons.svg#icon-smile"></use>
