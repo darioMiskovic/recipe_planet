@@ -1,10 +1,13 @@
+import {IngredientInfoModel} from "./ingredientInfo.model";
+
 export interface RecipeInfoModel{
   publisher: string;
-  ingredients: string[];
+  ingredients: IngredientInfoModel[];
   source_url: string;
-  recipe_id: string;
   image_url: string;
-  social_rank: number,
-  publisher_url: string;
+  id: string;
   title: string;
+  servings: number;
+  cooking_time: number;
+  myRecipe?: boolean;
 }

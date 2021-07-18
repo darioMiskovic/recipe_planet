@@ -1,12 +1,14 @@
 <header class="header">
-  <img src="../assets/img/logo.png" alt="Logo" class="header__logo" />
-  <form class="search">
+  <img src="../assets/img/logo.png" alt="Logo" class="header__logo" routerLink="/"/>
+  <form class="search"  #f="ngForm"  (ngSubmit) = "onSearch(f)">
     <input
       type="text"
       class="search__field"
       placeholder="Search over 1,000,000 recipes..."
+      ngModel
+      name="searchValue"
     />
-    <button class="btn search__btn">
+    <button class="btn search__btn" type="submit" routerLink="/">
       <svg class="search__icon">
         <use href="../assets/img/icons.svg#icon-search"></use>
       </svg>
@@ -16,7 +18,7 @@
 
   <nav class="nav">
     <ul class="nav__list">
-      <li class="nav__item">
+      <li class="nav__item" *ngIf="currentUser && activeToken">
         <button class="nav__btn nav__btn--bookmarks">
           <svg class="nav__icon">
             <use href="../assets/img/icons.svg#icon-bookmark"></use>
@@ -25,7 +27,7 @@
         </button>
         <div class="bookmarks">
           <ul class="bookmarks__list">
-            <div class="message">
+            <div class="message" *ngIf="!bookmarks">
               <div>
                 <svg>
                   <use href="../assets/img/icons.svg#icon-smile"></use>
@@ -35,35 +37,76 @@
                 No bookmarks yet. Find a nice recipe and bookmark it :)
               </p>
             </div>
-
-            <!--              BOOKMARKS-->
-
-            <!--              <li class="preview">-->
-            <!--                <a class="preview__link" href="#23456">-->
-            <!--                  <figure class="preview__fig">-->
-            <!--                    <img src="../assets/img/test-1.jpg" alt="Test" />-->
-            <!--                  </figure>-->
-            <!--                  <div class="preview__data">-->
-            <!--                    <h4 class="preview__name">-->
-            <!--                      Pasta with Tomato Cream ...-->
-            <!--                    </h4>-->
-            <!--                    <p class="preview__publisher">The Pioneer Woman</p>-->
-            <!--                  </div>-->
-            <!--                </a>-->
-            <!--              </li> -->
+            <!--Bookmarks-->
+                <li class="preview" *ngFor="let bookmark of bookmarks">
+                  <a class="preview__link" [routerLink]="['/recipes', bookmark.id]">
+                    <figure class="preview__fig">
+                      <img [src]="bookmark.image_url" [alt]="bookmark.title" />
+                    </figure>
+                    <div class="preview__data">
+                      <h4 class="preview__title">
+                        {{bookmark.title | truncate:27}}
+                      </h4>
+                      <p class="preview__publisher">{{bookmark.publisher}}</p>
+                    </div>
+                  </a>
+                </li>
           </ul>
         </div>
       </li>
 
-      <li class="nav__item">
-        <button class="nav__btn nav__btn--add-recipe">
+      <li class="nav__item-pr">
+
+        <button routerLink="/login" class="nav__btn " *ngIf="!activeToken">
           <svg class="nav__icon">
-            <use href="../assets/img/icons.svg#icon-edit"></use>
+            <use href="../assets/img/icons.svg#icon-enter"></use>
           </svg>
-          <span>Shopping list</span>
+          <span>Login</span>
         </button>
+
+        <button class="nav__btn " *ngIf="currentUser && activeToken">
+          <svg class="nav__icon">
+            <use href="../assets/img/icons.svg#icon-user"></use>
+          </svg>
+          <span>{{currentUser.first_name}}</span>
+        </button>
+
+        <ul class="nav__item--list" *ngIf="currentUser && activeToken">
+          <li class="nav__item--list-item" [routerLink]="['/recipes','add-recipe']" >
+            <button class="nav__btn nav__btn--add-recipe" >
+              <svg class="nav__icon">
+                <use href="../assets/img/icons.svg#icon-edit"></use>
+              </svg>
+              <span>Add Recipe</span>
+            </button>
+          </li>
+
+          <li class="nav__item--list-item">
+            <button
+              class="nav__btn nav__btn--add-recipe"
+              [routerLink]="['/recipes', 'my-recipes']"
+              (click)="onFetchMyRecipes()"
+            >
+              <svg class="nav__icon">
+                <use href="../assets/img/icons.svg#icon-book"></use>
+              </svg>
+              <span>My Recipes</span>
+            </button>
+          </li>
+
+          <li class="nav__item--list-item" >
+            <button class="nav__btn nav__btn--add-recipe" (click)="onLogout()">
+              <svg class="nav__icon">
+                <use href="../assets/img/icons.svg#icon-exit"></use>
+              </svg>
+              <span>Logout</span>
+            </button>
+          </li>
+        </ul>
       </li>
-      
+
+
+
     </ul>
   </nav>
 </header>

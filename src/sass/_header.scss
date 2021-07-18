@@ -4,11 +4,13 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  padding: 1rem 0 1rem 0;
 
   &__logo {
     margin-left: 4rem;
     height: 4.6rem;
     display: block;
+    cursor: pointer;
   }
 }
 
@@ -67,7 +69,42 @@
   }
 
   &__item {
-    position: relative;
+
+    &-pr{
+      position: relative;
+      button {
+        min-width: 17rem;
+        justify-content: center;
+      }
+
+      &:hover .nav__item--list{
+        visibility: visible;
+        opacity: 1;
+
+      }
+    }
+
+    //Hover list
+    &--list{
+      visibility: hidden;
+      opacity: 0;
+      z-index: 10;
+      list-style: none;
+      position: absolute;
+      top: 100%;
+      right: 0;
+      background-color: #fff;
+      border-bottom: 2px solid $color-primary;
+      box-shadow: 0 0.8rem 5rem 2rem rgba($color-grey-dark-1, 0.1);
+      transition: all 0.5s 0.2s;
+
+      & > li {
+        button {
+          justify-content: end;
+          padding: 1.2rem 1rem;
+        }
+      }
+    }
   }
 
   &__btn {
@@ -107,8 +144,7 @@
 .bookmarks {
   padding: 1rem 0;
   position: absolute;
-  // right: 0;
-  right: -2.5rem;
+  right: 8rem;
   z-index: 10;
   width: 40rem;
   background-color: #fff;

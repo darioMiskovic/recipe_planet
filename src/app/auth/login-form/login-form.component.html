@@ -1,0 +1,11 @@
+<form #f="ngForm" (ngSubmit)="onSubmit(f)" class="userFormBox">
+  <img src="../../../assets/img/favicon.png" alt="logo">
+
+  <label for="email">Email</label>
+  <input ngModel  name="email" type="email" id="email" required email/>
+  <label for="password">Password</label>
+  <input ngModel name="password" type="password" id="password" required minlength="6"/>
+
+  <button class="btn" type="submit">Sign In</button>
+  <a class="accQuest" [routerLink]="['/registration']">Don't have an account? Sign Up</a>
+</form>
