@@ -27,19 +27,19 @@ Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To u
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
 
 /*Popraviti*/
-recipe-search-results component ts
 
-spinner prilikom logina i nakon logina, prikazati podatke bez refresha
+1.registration response uljepšati 
 
+2.recipe-search-results component ts
 
-spinner u search results i u recipo info
+3.spinner prilikom logina i nakon logina, prikazati podatke bez refresha
 
-u recipe service stavit unutar set metode za myrecipe array da salje post api ****
+4.spinner u search results i u recipo info
 
-pagination
+5.u recipe service stavit unutar set metode za myrecipe array da salje post api ****
 
-myrecipes kada je prazan array, napraviti logiku
+6.pagination
 
-valid btn kod forme i napraviti btn za invalid formu
+7.myrecipes kada je prazan array, napraviti logiku
 
-mobile responsive
+8.mobile responsive
