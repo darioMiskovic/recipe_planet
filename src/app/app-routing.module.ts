@@ -5,6 +5,7 @@ import {RecipeComponent} from "./recipes/recipe/recipe.component";
 import {AddRecipeComponent} from "./recipes/add-recipe/add-recipe.component";
 import {LoginFormComponent} from "./auth/login-form/login-form.component";
 import {RegisterFormComponent} from "./auth/register-form/register-form.component";
+import {RecipesResolverService} from "./recipes/recipes-resolver.service";
 
 const routes: Routes = [
 
@@ -17,6 +18,7 @@ const routes: Routes = [
   {
     path: 'recipes',
     component: RecipesComponent,
+    resolve: {currentUser: RecipesResolverService},
     children: [
       {path:'my-recipes', component:RecipeComponent},
       {path:'add-recipe', component:AddRecipeComponent},

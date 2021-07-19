@@ -10,14 +10,23 @@ export class RecipeInterceptorService implements HttpInterceptor{
   }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    const localhost = "http://127.0.0.1:8000/api/";
+    const localhost = "http://127.0.0.1:8000/";
 
-    if(req.url !== localhost+'register' && req.url !== localhost+'user'){
+    if(req.url !== localhost+'api/register' && req.url !== localhost+'api/user' && req.url !== localhost+'oauth/token'){
      const userID = (this.recipeService.currentUserID).toString();
+     
+      let clonedReq;
 
-      const clonedReq = req.clone({
-        headers: req.headers.set("currentUserID", userID)
-      });
+      if(req.method === 'POST'){
+        clonedReq = req.clone({
+          headers: req.headers.set("currentUserID", userID),
+          responseType:'text'
+        });
+      }else {
+       clonedReq = req.clone({
+          headers: req.headers.set("currentUserID", userID),
+        });
+      }
 
       return next.handle(clonedReq);
 

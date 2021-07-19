@@ -1,6 +1,6 @@
 <header class="header">
   <img src="../assets/img/logo.png" alt="Logo" class="header__logo" routerLink="/"/>
-  <form class="search"  #f="ngForm"  (ngSubmit) = "onSearch(f)">
+  <form class="search"  #f="ngForm"  (ngSubmit) = "onSearch(f)" *ngIf="currentUser && activeToken">
     <input
       type="text"
       class="search__field"
@@ -16,9 +16,9 @@
     </button>
   </form>
 
-  <nav class="nav">
+  <nav class="nav" *ngIf="currentUser && activeToken">
     <ul class="nav__list">
-      <li class="nav__item" *ngIf="currentUser && activeToken">
+      <li class="nav__item">
         <button class="nav__btn nav__btn--bookmarks">
           <svg class="nav__icon">
             <use href="../assets/img/icons.svg#icon-bookmark"></use>
@@ -57,21 +57,14 @@
 
       <li class="nav__item-pr">
 
-        <button routerLink="/login" class="nav__btn " *ngIf="!activeToken">
-          <svg class="nav__icon">
-            <use href="../assets/img/icons.svg#icon-enter"></use>
-          </svg>
-          <span>Login</span>
-        </button>
-
-        <button class="nav__btn " *ngIf="currentUser && activeToken">
+        <button class="nav__btn ">
           <svg class="nav__icon">
             <use href="../assets/img/icons.svg#icon-user"></use>
           </svg>
           <span>{{currentUser.first_name}}</span>
         </button>
 
-        <ul class="nav__item--list" *ngIf="currentUser && activeToken">
+        <ul class="nav__item--list">
           <li class="nav__item--list-item" [routerLink]="['/recipes','add-recipe']" >
             <button class="nav__btn nav__btn--add-recipe" >
               <svg class="nav__icon">
@@ -104,9 +97,6 @@
           </li>
         </ul>
       </li>
-
-
-
     </ul>
   </nav>
 </header>

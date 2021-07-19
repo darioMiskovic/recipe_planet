@@ -9,6 +9,7 @@ import {AppRoutingModule} from "../app-routing.module";
 import {ReactiveFormsModule} from "@angular/forms";
 import {SharedModule} from "../shared/shared.module";
 import {RecipeInterceptorService} from "./recipe-interceptor.service";
+import {RecipesResolverService} from "./recipes-resolver.service";
 
 @NgModule({
   declarations:[
@@ -31,7 +32,9 @@ import {RecipeInterceptorService} from "./recipe-interceptor.service";
       provide: HTTP_INTERCEPTORS,
       useClass: RecipeInterceptorService,
       multi: true
-    }
+    },
+
+    RecipesResolverService
   ]
 })
 

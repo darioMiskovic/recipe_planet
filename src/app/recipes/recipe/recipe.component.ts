@@ -76,14 +76,16 @@ export class RecipeComponent implements OnInit, OnDestroy {
         id: this.recipeInfo.id,
         image_url: this.recipeInfo.image_url
       }
-
       this.bookmarks.push(recipe);
       this.recipeService.addBookmark(recipe);
 
+
     }else{
       this.bookmarkID = !this.bookmarkID;
+
       this.bookmarks = this.bookmarks.filter(bookmark => bookmark.id !== this.recipeInfo.id);
-      this.recipeService.removeBookmark(this.recipeInfo.id)
+
+      this.recipeService.removeBookmark(this.recipeInfo.id);
     }
 
   }
