@@ -76,7 +76,7 @@ export class RecipeComponent implements OnInit, OnDestroy {
         id: this.recipeInfo.id,
         image_url: this.recipeInfo.image_url
       }
-      this.bookmarks.push(recipe);
+      //this.bookmarks.push(recipe);
       this.recipeService.addBookmark(recipe);
 
 

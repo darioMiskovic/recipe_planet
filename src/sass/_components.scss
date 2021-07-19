@@ -119,6 +119,14 @@
   }
 }
 
+.btn-disabled{
+  background-image: $disabled-gradient;
+  &:hover {
+    transform: scale(1);
+    cursor: default;
+  }
+}
+
 .btn--tiny {
   height: 2rem;
   width: 2rem;

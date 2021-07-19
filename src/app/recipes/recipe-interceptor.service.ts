@@ -14,7 +14,7 @@ export class RecipeInterceptorService implements HttpInterceptor{
 
     if(req.url !== localhost+'api/register' && req.url !== localhost+'api/user' && req.url !== localhost+'oauth/token'){
      const userID = (this.recipeService.currentUserID).toString();
-     
+
       let clonedReq;
 
       if(req.method === 'POST'){

@@ -30,7 +30,12 @@
     </div>
 
     <div class="upload__cta">
-      <button class="btn upload__btn" type="submit">
+      <button
+        class="btn upload__btn"
+        type="submit"
+        [ngClass]="{'btn-disabled':!recipeForm.valid}"
+        [disabled]="!recipeForm.valid"
+      >
         <svg>
           <use href="../assets/img/icons.svg#icon-upload-cloud"></use>
         </svg>
@@ -44,8 +49,6 @@
         <span>Add Ingredient</span>
       </button>
     </div>
-
-    <button *ngIf="!recipeForm.valid">Nevalja</button>
 
   </form>
 </div>

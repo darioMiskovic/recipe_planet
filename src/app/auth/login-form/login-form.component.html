@@ -6,6 +6,11 @@
   <label for="password">Password</label>
   <input ngModel name="password" type="password" id="password" required minlength="6"/>
 
-  <button class="btn" type="submit">Sign In</button>
+  <button
+    class="btn"
+    type="submit"
+    [ngClass]="{'btn-disabled':!f.valid}"
+    [disabled]="!f.valid"
+  >Sign In</button>
   <a class="accQuest" [routerLink]="['/registration']">Don't have an account? Sign Up</a>
 </form>

@@ -16,7 +16,12 @@
   <label for="password_confirmation">Repeat Password</label>
   <input ngModel required minlength="6" name="password_confirmation" type="password" id="password_confirmation"/>
 
-  <button class="btn" type="submit">Sign Up</button>
+  <button
+    class="btn"
+    type="submit"
+    [ngClass]="{'btn-disabled':!f.valid}"
+    [disabled]="!f.valid"
+  >Sign Up</button>
 
   <a class="accQuest" [routerLink]="['/login']">Already have account? Sign In</a>
 </form>
