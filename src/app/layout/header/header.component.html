@@ -6,9 +6,15 @@
       class="search__field"
       placeholder="Search over 1,000,000 recipes..."
       ngModel
+      required
       name="searchValue"
     />
-    <button class="btn search__btn" type="submit" routerLink="/">
+    <button
+      class="btn search__btn"
+      type="submit"
+      routerLink="/"
+      [disabled]="!f.valid"
+    >
       <svg class="search__icon">
         <use href="../assets/img/icons.svg#icon-search"></use>
       </svg>

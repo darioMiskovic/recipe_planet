@@ -1,3 +1,6 @@
+<app-message *ngIf="!recipeStatus && !spinner"></app-message>
+<app-spinner *ngIf="spinner"></app-spinner>
+
 <div class="recipe" *ngIf="recipeStatus">
   <figure class="recipe__fig">
     <img [src]="[recipeInfo.image_url]" [alt]="[recipeInfo.title]" class="recipe__img" />

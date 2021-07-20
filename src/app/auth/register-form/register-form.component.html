@@ -1,6 +1,7 @@
 <form #f="ngForm" (ngSubmit)="onSubmit(f)" class="userFormBox">
+<app-message *ngIf="message" appAbsolutePos [messageContent]="'You have successfully registered'"></app-message>
+  <app-spinner *ngIf="spinner" appAbsolutePos></app-spinner>
   <img src="../../../assets/img/favicon.png" alt="logo">
-
   <label for="first_name">First Name</label>
   <input ngModel name="first_name" type="text" id="first_name"/>
 

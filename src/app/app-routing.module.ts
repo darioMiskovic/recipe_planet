@@ -20,6 +20,7 @@ const routes: Routes = [
     component: RecipesComponent,
     resolve: {currentUser: RecipesResolverService},
     children: [
+      {path:'', component:RecipeComponent,pathMatch: 'full'},
       {path:'my-recipes', component:RecipeComponent},
       {path:'add-recipe', component:AddRecipeComponent},
       {path:'edit/:id', component:AddRecipeComponent},

@@ -1,4 +1,6 @@
+
 <form #f="ngForm" (ngSubmit)="onSubmit(f)" class="userFormBox">
+  <app-spinner appAbsolutePos *ngIf="spinner"></app-spinner>
   <img src="../../../assets/img/favicon.png" alt="logo">
 
   <label for="email">Email</label>

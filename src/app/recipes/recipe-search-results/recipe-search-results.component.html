@@ -1,6 +1,8 @@
 <app-spinner *ngIf="loadingSpinner"></app-spinner>
+<!--<app-error *ngIf="errorMsg && !loadingSpinner"></app-error>-->
+<app-message [errorMsg]="true" *ngIf="errorMsg && !loadingSpinner"></app-message>
 
-<ul class="results">
+<ul class="results" *ngIf="!loadingSpinner">
   <li class="preview" *ngFor="let recipe of recipesArray">
     <a
       class="preview__link"

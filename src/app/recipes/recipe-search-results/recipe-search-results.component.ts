@@ -13,21 +13,26 @@ export class RecipeSearchResultsComponent implements OnInit, OnDestroy {
   subscriber = new Subscription();
   recipesArray!: RecipeModel[];
   loadingSpinner = false;
+  errorMsg = false;
+  constructor(private recipeService: RecipesService) {
 
-  constructor(private recipeService: RecipesService) { }
+  }
 
 
   ngOnInit(): void {
 
+    this.subscriber = this.recipeService.loadSpinner.subscribe(res => {
+      this.loadingSpinner = res;
+    })
+
     //pokušati ispraviti na 1 subscriber****
    this.subscriber = this.recipeService.recipeSearch.subscribe(recipeArr => {
-     this.loadingSpinner = false;
+     recipeArr.length < 1 ? this.errorMsg = true: this.errorMsg = false;
      this.recipesArray = (recipeArr);
-
     })
 
     this.subscriber = this.recipeService.myRecipeSearch.subscribe(recipeArr => {
-      this.loadingSpinner = false;
+      recipeArr.length < 1 ? this.errorMsg = true: this.errorMsg = false;
       this.recipesArray = (recipeArr);
     })
   }

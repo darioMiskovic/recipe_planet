@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 
 @Component({
   selector: 'app-message',
@@ -7,9 +7,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MessageComponent implements OnInit {
 
+
+  @Input('messageContent') messageContent = "Start by searching for a recipe or an ingredient. Have fun!";
+  @Input('errorMessageContent') errorMessageContent = "No recipes found. Please try again!";
+
+  @Input('errorMsg') errorMsg = false;
   constructor() { }
 
+
   ngOnInit(): void {
+
   }
 
 }

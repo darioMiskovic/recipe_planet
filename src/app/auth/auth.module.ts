@@ -7,6 +7,7 @@ import {AuthComponent} from "./auth.component";
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {AppRoutingModule} from "../app-routing.module";
 import {AuthInterceptorService} from "./auth-interceptor.service";
+import {SharedModule} from "../shared/shared.module";
 
 
 
@@ -20,7 +21,8 @@ import {AuthInterceptorService} from "./auth-interceptor.service";
     CommonModule,
     FormsModule,
     HttpClientModule,
-    AppRoutingModule
+    AppRoutingModule,
+    SharedModule
   ],
   providers:[
     {

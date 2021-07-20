@@ -12,6 +12,7 @@ export class RecipesService {
   myRecipeSearch =  new Subject<RecipeInfoModel[]>();
   myBookmarksUpdated = new BehaviorSubject(this.myBookmarks);
   currentUser = new BehaviorSubject(null);
+  loadSpinner = new BehaviorSubject(false);
 
   currentUserID!: number;
 

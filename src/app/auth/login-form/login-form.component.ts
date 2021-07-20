@@ -10,6 +10,7 @@ import {Router} from "@angular/router";
 })
 export class LoginFormComponent implements OnInit {
 
+  spinner = false;
 
   constructor(private http: HttpClient, private router: Router) { }
 
@@ -17,6 +18,8 @@ export class LoginFormComponent implements OnInit {
   }
 
   onSubmit(loginForm: NgForm){
+
+    this.spinner = true;
 
    const data = {
      username: loginForm.value.email,
@@ -28,7 +31,7 @@ export class LoginFormComponent implements OnInit {
    }
 
     this.http.post('http://127.0.0.1:8000/oauth/token', data).subscribe((res: any) => {
-
+      this.spinner = false;
       localStorage.setItem('token', res.access_token);
       this.router.navigate(['/']);
 

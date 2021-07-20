@@ -19,6 +19,7 @@ export class RecipeComponent implements OnInit, OnDestroy {
   bookmarks: RecipeModel[] = [];
   bookmarkID = false;
   subscription = new Subscription();
+  spinner = false;
 
   constructor(private route: ActivatedRoute, private http: HttpClient, private recipeService: RecipesService) { }
 
@@ -45,8 +46,11 @@ export class RecipeComponent implements OnInit, OnDestroy {
   }
 
   fetchRecipeDetail(id: string){
+    this.spinner = true;
+    this.recipeStatus = false;
 
     if(id[0] === '#'){
+      this.spinner = false;
       const myRecipeInfo = this.recipeService.myRecipes.find((recipe: RecipeInfoModel) => recipe.id === id)
       if(myRecipeInfo){
         this.recipeInfo = myRecipeInfo;
@@ -57,6 +61,7 @@ export class RecipeComponent implements OnInit, OnDestroy {
     }
 
     this.http.get(`https://forkify-api.herokuapp.com/api/v2/recipes/${id}`).subscribe((recipe: any) => {
+      this.spinner = false;
       this.recipeInfo = recipe.data.recipe;
       this.recipeStatus = true;
     }, error => {

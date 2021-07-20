@@ -28,18 +28,11 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 
 /*Popraviti*/
 
-1.registration response uljepšati 
+recipe-search-results component ts
 
-2.recipe-search-results component ts
+u recipe service stavit unutar set metode za myrecipe array da salje post api ****
 
-3.spinner prilikom logina i nakon logina, prikazati podatke bez refresha
+pagination
 
-4.spinner u search results i u recipo info
+mobile responsive
 
-5.u recipe service stavit unutar set metode za myrecipe array da salje post api ****
-
-6.pagination
-
-7.myrecipes kada je prazan array, napraviti logiku
-
-8.mobile responsive
