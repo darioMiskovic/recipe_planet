@@ -1,36 +1,26 @@
 <app-spinner *ngIf="loadingSpinner"></app-spinner>
-<!--<app-error *ngIf="errorMsg && !loadingSpinner"></app-error>-->
 <app-message [errorMsg]="true" *ngIf="errorMsg && !loadingSpinner"></app-message>
 
-<ul class="results" *ngIf="!loadingSpinner">
-  <li class="preview" *ngFor="let recipe of recipesArray">
-    <a
-      class="preview__link"
-      [routerLink]="[recipe.id]"
-    >
-      <figure class="preview__fig">
-        <img [src]="recipe.image_url" [alt]="recipe.title" />
-      </figure>
-      <div class="preview__data">
-        <h4 class="preview__title">{{recipe.title | truncate:27}}</h4>
-        <p class="preview__publisher">{{recipe.publisher}}</p>
-      </div>
-    </a>
+<ul class="results" *ngIf="!loadingSpinner && recipesArray">
+  <li class="preview" *ngFor="let recipe of recipesArray | paginate: { itemsPerPage: 10, currentPage: page }">
+        <a
+          class="preview__link"
+          [routerLink]="[recipe.id]"
+        >
+          <figure class="preview__fig">
+            <img [src]="recipe.image_url" [alt]="recipe.title" />
+          </figure>
+          <div class="preview__data">
+            <h4 class="preview__title">{{recipe.title | truncate:27}}</h4>
+            <p class="preview__publisher">{{recipe.publisher}}</p>
+          </div>
+        </a>
   </li>
-
 </ul>
 
-<!--<div class="pagination">-->
-<!--  <button class="btn&#45;&#45;inline pagination__btn&#45;&#45;prev">-->
-<!--    <svg class="search__icon">-->
-<!--      <use href="../assets/img/icons.svg#icon-arrow-left"></use>-->
-<!--    </svg>-->
-<!--    <span>Page 1</span>-->
-<!--  </button>-->
-<!--  <button class="btn&#45;&#45;inline pagination__btn&#45;&#45;next">-->
-<!--    <span>Page 3</span>-->
-<!--    <svg class="search__icon">-->
-<!--      <use href="../assets/img/icons.svg#icon-arrow-right"></use>-->
-<!--    </svg>-->
-<!--  </button>-->
-<!--</div>-->
+<pagination-controls
+  class="my-pagination"
+  *ngIf="!loadingSpinner && recipesArray !== undefined && recipesArray.length > 10"
+  (pageChange)="page = $event"
+></pagination-controls>
+

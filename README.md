@@ -30,9 +30,5 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 
 recipe-search-results component ts
 
-u recipe service stavit unutar set metode za myrecipe array da salje post api ****
-
-pagination
-
 mobile responsive
 

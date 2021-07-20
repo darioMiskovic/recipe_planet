@@ -40,3 +40,49 @@
     color: $color-grey-dark-2;
   }
 }
+
+.my-pagination{
+  font-size: 1.4rem;
+
+  .ngx-pagination {
+
+    display: flex;
+    justify-content: space-between;
+
+    .pagination-previous a{
+      border-radius: 5px;
+      &::before{
+        content: '<';
+      }
+    }
+    .pagination-next a{
+      border-radius: 5px;
+      &::after{
+        content: '>';
+      }
+    }
+
+    li a {
+      padding: 0.7rem 1rem;
+      transition: all 0.3s ease-in-out;
+    }
+
+    li:hover a{
+      background-color: $color-primary;
+      color: #fff;
+    }
+
+    .current {
+      background: $color-primary;
+      align-self: stretch;
+      padding: 0;
+      display: flex;
+
+      span{
+        padding: 0.7rem 1rem;
+      }
+    }
+  }
+}
+
+

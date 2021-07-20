@@ -14,9 +14,8 @@ export class RecipeSearchResultsComponent implements OnInit, OnDestroy {
   recipesArray!: RecipeModel[];
   loadingSpinner = false;
   errorMsg = false;
-  constructor(private recipeService: RecipesService) {
-
-  }
+  page: number = 1;
+  constructor(private recipeService: RecipesService) {}
 
 
   ngOnInit(): void {
@@ -40,5 +39,8 @@ export class RecipeSearchResultsComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.subscriber.unsubscribe();
   }
+
+  //Pagination
+
 
 }

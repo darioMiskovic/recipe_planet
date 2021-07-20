@@ -11,6 +11,9 @@ import {SharedModule} from "../shared/shared.module";
 import {RecipeInterceptorService} from "./recipe-interceptor.service";
 import {RecipesResolverService} from "./recipes-resolver.service";
 
+//NPX Pagination
+import {NgxPaginationModule} from 'ngx-pagination';
+
 @NgModule({
   declarations:[
     RecipeComponent,
@@ -24,7 +27,8 @@ import {RecipesResolverService} from "./recipes-resolver.service";
     HttpClientModule,
     AppRoutingModule,
     ReactiveFormsModule,
-    SharedModule
+    SharedModule,
+    NgxPaginationModule
   ],
 
   providers: [
