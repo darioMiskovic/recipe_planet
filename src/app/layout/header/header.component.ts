@@ -6,6 +6,7 @@ import {Subscription} from "rxjs";
 import {UserModel} from "../../recipes/models/user.model";
 import {RecipeModel} from "../../recipes/models/recipe.model";
 import {Router} from "@angular/router";
+import {DataStorageService} from "../../shared/data-storage.service";
 
 @Component({
   selector: 'app-header',
@@ -20,17 +21,19 @@ export class HeaderComponent implements OnInit, OnDestroy {
   activeToken!:boolean;
   bookmarks!: RecipeModel[];
 
-  constructor(private recipesService: RecipesService, private http: HttpClient, private router: Router) { }
+  constructor(
+    private recipesService: RecipesService,
+    private http: HttpClient,
+    private router: Router,
+    private dataStorage: DataStorageService
+  ) { }
 
   ngOnInit(): void {
 
-
-    //Fetch current user
-   this.subscription = this.recipesService.currentUser.subscribe(user => {
+   this.subscription = this.dataStorage.currentUser.subscribe(user => {
      this.activeToken = localStorage.getItem('token') !== null;
      this.currentUser = user!;
     })
-
 
      this.recipesService.myBookmarksUpdated.subscribe((res: RecipeModel[]) => {
       this.bookmarks = res;
@@ -48,29 +51,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
     }, error => {
       console.log(error);
       //API doesnt provide ERROR Message
-      //alert("We couldn't find recipes for this query!")
-      //this.recipesService.loadSpinner.next(false);
-      //this.form.reset();
     });
   }
 
   //Fetch my recipes
   onFetchMyRecipes(){
-    this.recipesService.loadSpinner.next(true);
-    this.http.get('http://127.0.0.1:8000/api/my-recipe').subscribe((res:any) => {
-
-        let myRecipes = res.split('<>');
-        myRecipes.pop();
-        myRecipes = myRecipes.map((recipe: string) => JSON.parse(recipe));
-        this.recipesService.loadSpinner.next(false);
-        this.recipesService.myRecipeSearch.next(myRecipes);
-        //Store my recipes in recipes service
-        this.recipesService.myRecipes = myRecipes;
-
-    }, error => {
-      this.recipesService.loadSpinner.next(false);
-      this.recipesService.myRecipeSearch.next([]);
-    });
+    this.dataStorage.fetchMyRecipes();
   }
 
   onLogout(){

@@ -1,10 +1,10 @@
 import {Component, OnDestroy, OnInit } from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
-import {HttpClient} from "@angular/common/http";
 import {RecipeInfoModel} from "../models/recipeInfo.model";
 import {RecipesService} from "../recipes.service";
 import {RecipeModel} from "../models/recipe.model";
 import {Subscription} from "rxjs";
+import {DataStorageService} from "../../shared/data-storage.service";
 
 @Component({
   selector: 'app-recipe',
@@ -21,7 +21,11 @@ export class RecipeComponent implements OnInit, OnDestroy {
   subscription = new Subscription();
   spinner = false;
 
-  constructor(private route: ActivatedRoute, private http: HttpClient, private recipeService: RecipesService) { }
+  constructor(
+    private route: ActivatedRoute,
+    private recipeService: RecipesService,
+    private dataStorage: DataStorageService
+  ) { }
 
   ngOnInit(): void {
 
@@ -60,13 +64,13 @@ export class RecipeComponent implements OnInit, OnDestroy {
       return;
     }
 
-    this.http.get(`https://forkify-api.herokuapp.com/api/v2/recipes/${id}`).subscribe((recipe: any) => {
+    this.dataStorage.fetchRecipeDetail(id).subscribe(recipe => {
       this.spinner = false;
-      this.recipeInfo = recipe.data.recipe;
+      this.recipeInfo = recipe;
       this.recipeStatus = true;
-    }, error => {
-      console.log(error)
-      this.recipeStatus = false;
+    },error => {
+        console.log(error)
+        this.recipeStatus = false;
     })
   }
 
@@ -81,19 +85,12 @@ export class RecipeComponent implements OnInit, OnDestroy {
         id: this.recipeInfo.id,
         image_url: this.recipeInfo.image_url
       }
-      //this.bookmarks.push(recipe);
-      this.recipeService.addBookmark(recipe);
-
+      this.dataStorage.addBookmark(recipe);
 
     }else{
       this.bookmarkID = !this.bookmarkID;
-
       this.bookmarks = this.bookmarks.filter(bookmark => bookmark.id !== this.recipeInfo.id);
-
-      this.recipeService.removeBookmark(this.recipeInfo.id);
+      this.dataStorage.removeBookmark(this.recipeInfo.id);
     }
-
   }
-
-
 }

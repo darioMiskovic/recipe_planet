@@ -1,11 +1,12 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import {FormArray, FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {RecipeInfoModel} from "../models/recipeInfo.model";
 import {IngredientInfoModel} from "../models/ingredientInfo.model";
-import {HttpClient} from "@angular/common/http";
 import {RecipesService} from "../recipes.service";
 import {Subscription} from "rxjs";
 import {ActivatedRoute, Router} from "@angular/router";
+import {DataStorageService} from "../../shared/data-storage.service";
+import {map} from "rxjs/operators";
 
 @Component({
   selector: 'app-add-recipe',
@@ -24,15 +25,15 @@ export class AddRecipeComponent implements OnInit, OnDestroy {
   message!: string;
 
   constructor(private fb: FormBuilder,
-              private http: HttpClient,
               private recipeService: RecipesService,
+              private dataStorage: DataStorageService,
               private route: ActivatedRoute,
               private router: Router
   ) { }
 
   ngOnInit(): void {
     this.init();
-    this.subscription =this.recipeService.currentUser.subscribe(res => {
+    this.subscription =this.dataStorage.currentUser.subscribe(res => {
       // @ts-ignore
       this.currentUserID = res.id;
     })
@@ -63,12 +64,9 @@ export class AddRecipeComponent implements OnInit, OnDestroy {
      cooking_time: myRecipe.cooking_time,
      servings: myRecipe.servings,
    })
-
     this.recipeForm.setControl('ingredients', this.setExistingIngredients(stringifyIngrArr));
     this.updateRecipe = true;
-
   }
-
 
   //Init Form
   init(){
@@ -120,6 +118,21 @@ export class AddRecipeComponent implements OnInit, OnDestroy {
     return newIngredientsArray;
   }
 
+  myRecipeResponse(response: any){
+      this.spinner = false;
+      this.message = response.resMessage;
+      setTimeout(()=>{
+        if(response.type === 'added'){
+          this.recipeForm.reset();
+          this.message = '';
+        }else{
+          this.updateRecipe = false;
+          this.message = '';
+          this.router.navigate(['recipes','add-recipe']);
+        }
+      }, 1500)
+  }
+
   //Submit Form
   onSubmit(){
     this.spinner = true;
@@ -129,53 +142,18 @@ export class AddRecipeComponent implements OnInit, OnDestroy {
     myRecipe.myRecipe = true;
     myRecipe.id =  "#"+(Math.random() * 1).toString().split('.')[1].split('').slice(0,6).join("");
 
-    if(this.updateRecipe){
-
-      this.recipeService.myRecipes[this.recipeID] = myRecipe;
-      const updatedMyRecipesArr = this.recipeService.myRecipes.map(recipe => JSON.stringify(recipe)+'<>').join('');
-
-      this.http.post('http://127.0.0.1:8000/api/my-recipe/update', {
-
-        my_recipe: updatedMyRecipesArr,
-        currentUserID: this.currentUserID
-
-      }).subscribe((res:any) => {
-        console.log(res);
-        this.spinner = false;
-        this.message = res;
-        setTimeout(()=>{
-        this.router.navigate(['recipes','add-recipe'])
-        }, 1500)
+    this.dataStorage.myRecipesUpdate(this.updateRecipe, myRecipe, this.recipeID)
+      .pipe(map( (response: any) => {
+        return {
+          type: response.split(' ')[2],
+          resMessage: response
+        }
+      }))
+      .subscribe(res => {
+        this.myRecipeResponse(res);
       }, error => {
-        console.log(error);
-        this.spinner = false;
-      })
-
-      this.updateRecipe = false;
-      return;
-
-    }
-
-
-
-    this.http.post('http://127.0.0.1:8000/api/my-recipe', {
-
-      my_recipe: (JSON.stringify(myRecipe)+'<>'),
-      currentUserID: this.currentUserID
-
-    }).subscribe((res:any) => {
-      console.log(res);
-      this.spinner = false;
-      this.message = res;
-      setTimeout(()=>{
-      this.recipeForm.reset();
-      this.message = '';
-      }, 1500)
-    }, error => {
-      console.log(error)
-      this.spinner = false;
-    })
-
+          console.log(error);
+          this.spinner = false;
+      });
   }
-
 }
