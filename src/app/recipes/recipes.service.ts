@@ -3,6 +3,7 @@ import {BehaviorSubject, Subject, Subscription} from "rxjs";
 import {RecipeModel} from "./models/recipe.model";
 import {RecipeInfoModel} from "./models/recipeInfo.model";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {IngredientInfoModel} from "./models/ingredientInfo.model";
 
 @Injectable({providedIn: "root"})
 

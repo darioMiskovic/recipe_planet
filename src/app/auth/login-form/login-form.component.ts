@@ -11,6 +11,7 @@ import {Router} from "@angular/router";
 export class LoginFormComponent implements OnInit {
 
   spinner = false;
+  errorMsg!: string;
 
   constructor(private http: HttpClient, private router: Router) { }
 
@@ -35,7 +36,15 @@ export class LoginFormComponent implements OnInit {
       localStorage.setItem('token', res.access_token);
       this.router.navigate(['/']);
 
-    }, error => console.log(error))
+    }, error => {
+      console.log(error);
+      this.spinner = false;
+      this.errorMsg = 'Please enter valid inputs';
+       setTimeout(()=> {
+         this.errorMsg = '';
+         loginForm.reset();
+       }, 1500)
+      })
   }
 
 }

@@ -30,12 +30,7 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 
 recipe-search-results component ts
 
-login i registr error msg
-
 auth guard
-
-add my recipe pokazi odma moje recepte nakon dodavanja
 
 mobile responsive
 
-delete myRecipe

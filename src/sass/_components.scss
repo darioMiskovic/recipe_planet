@@ -233,3 +233,27 @@
     font-weight: 600;
   }
 }
+
+
+.deleteIngrBtn{
+  margin: 0 0 0 10px;
+  border: none;
+  padding: 0.8rem 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: red;
+  transition: background-color 0.2s ease-in-out;
+
+  &:hover{
+    background-color: #cd0a0a;
+  }
+
+  svg{
+    width: 1.5rem;
+    height: 1.6rem;
+    fill: #fff;
+    stroke-width: 0;
+    display: inline-block;
+  }
+
+}

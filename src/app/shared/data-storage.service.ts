@@ -3,8 +3,9 @@ import {HttpClient} from "@angular/common/http";
 import {RecipesService} from "../recipes/recipes.service";
 import {RecipeModel} from "../recipes/models/recipe.model";
 import {BehaviorSubject} from "rxjs";
-import {map} from "rxjs/operators";
+import {map, switchAll} from "rxjs/operators";
 import {RecipeInfoModel} from "../recipes/models/recipeInfo.model";
+import {IngredientInfoModel} from "../recipes/models/ingredientInfo.model";
 
 @Injectable({
   providedIn: 'root'
@@ -89,13 +90,23 @@ export class DataStorageService {
   }
 
   //Add recipe component
-  myRecipesUpdate(update: boolean, myRecipe: RecipeInfoModel, recipeID = 0){
+  myRecipesUpdate(update: boolean, myRecipe: RecipeInfoModel, recipeID = 0, deleteMyRecipe = false){
+
     if(update){
-      this.recipesService.myRecipes[recipeID] = myRecipe;
+      if(deleteMyRecipe){
+        const removeIndex = this.recipesService.myRecipes.findIndex(recipe => +recipe.id === recipeID);
+        this.recipesService.myRecipes.splice(removeIndex, 1);
+      }else{
+        this.recipesService.myRecipes[recipeID] = myRecipe;
+      }
+
       const updatedMyRecipesArr = this.recipesService.myRecipes.map(recipe => JSON.stringify(recipe)+'<>').join('');
       return this.http.post('http://127.0.0.1:8000/api/my-recipe/update', {my_recipe: updatedMyRecipesArr})
     }
+
+    this.recipesService.myRecipes.push(myRecipe);
     return this.http.post('http://127.0.0.1:8000/api/my-recipe', {my_recipe: (JSON.stringify(myRecipe)+'<>')})
+
   }
 
 }

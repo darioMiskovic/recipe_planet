@@ -20,7 +20,7 @@
 
     <div class="upload__column" formArrayName="ingredients">
       <h3 class="upload__heading">Ingredients</h3>
-      <div class="upload__ingredient" *ngFor="let ingredient of ingredients; let i = index">
+      <div class="upload__ingredient" *ngFor="let _ of ingredients.controls; let i = index">
         <label [for]="'ingr-'+i">Ingredient {{i+1}}</label>
         <input
           [id]="'ingr-'+i"
@@ -28,6 +28,17 @@
           [formControlName] = "i"
           placeholder="Format: 'Quantity,Unit,Description'"
         />
+        <button
+          #btnDeleteIngr
+          class="deleteIngrBtn"
+          (click)="onDeleteIngredient(i)"
+          [disabled] = "ingredients.length < 2"
+          [ngClass]="{'btn-disabled': btnDeleteIngr.disabled }"
+          type="button">
+          <svg>
+            <use href="../assets/img/icons.svg#icon-cross"></use>
+          </svg>
+        </button>
       </div>
     </div>
 
@@ -41,7 +52,7 @@
         <svg>
           <use href="../assets/img/icons.svg#icon-upload-cloud"></use>
         </svg>
-        <span>Upload</span>
+        <span>{{!updateRecipe ? 'Upload' : 'Update'}}</span>
       </button>
 
       <button class="btn add__ingredient__btn" type="button" (click)="addIngredient()">
@@ -50,6 +61,14 @@
         </svg>
         <span>Add Ingredient</span>
       </button>
+
+      <button class="btn add__ingredient__btn" type="button" (click)="onDeleteMyRecipe()" *ngIf="updateRecipe">
+        <svg>
+          <use href="../assets/img/icons.svg#icon-plus"></use>
+        </svg>
+        <span>Delete Recipe</span>
+      </button>
+
     </div>
 
   </form>

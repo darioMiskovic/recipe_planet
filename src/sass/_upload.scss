@@ -65,8 +65,10 @@
   &__ingredient{
     grid-column: 1/3;
 
+    label{display: block}
+
     & input[type=text]{
-      width: 100%;
+      width: 90%;
     }
   }
 

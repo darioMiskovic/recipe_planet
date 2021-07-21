@@ -1,5 +1,6 @@
 
 <form #f="ngForm" (ngSubmit)="onSubmit(f)" class="userFormBox">
+  <app-message appAbsolutePos *ngIf="errorMsg" [errorMsg]="errorMsg?true:false" [errorMessageContent]="errorMsg"></app-message>
   <app-spinner appAbsolutePos *ngIf="spinner"></app-spinner>
   <img src="../../../assets/img/favicon.png" alt="logo">
 

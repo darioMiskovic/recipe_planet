@@ -68,6 +68,7 @@ export class RecipeComponent implements OnInit, OnDestroy {
       this.spinner = false;
       this.recipeInfo = recipe;
       this.recipeStatus = true;
+      this.myRecipe = false;
     },error => {
         console.log(error)
         this.recipeStatus = false;

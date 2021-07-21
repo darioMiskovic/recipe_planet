@@ -84,7 +84,7 @@ export class AddRecipeComponent implements OnInit, OnDestroy {
   }
 
   get ingredients(){
-    return (this.recipeForm.get('ingredients') as FormArray).controls;
+    return this.recipeForm.get('ingredients') as FormArray;
   }
 
   addIngredient() {
@@ -98,6 +98,11 @@ export class AddRecipeComponent implements OnInit, OnDestroy {
     })
 
     return formArray;
+  }
+
+
+  onDeleteIngredient(id: number){
+    this.ingredients.controls.splice(id,1);
   }
 
   //Convert to valid ingr object
@@ -123,8 +128,9 @@ export class AddRecipeComponent implements OnInit, OnDestroy {
       this.message = response.resMessage;
       setTimeout(()=>{
         if(response.type === 'added'){
-          this.recipeForm.reset();
+          this.init();
           this.message = '';
+
         }else{
           this.updateRecipe = false;
           this.message = '';
@@ -135,6 +141,7 @@ export class AddRecipeComponent implements OnInit, OnDestroy {
 
   //Submit Form
   onSubmit(){
+
     this.spinner = true;
     const myRecipe: RecipeInfoModel = this.recipeForm.getRawValue();
 
@@ -155,5 +162,22 @@ export class AddRecipeComponent implements OnInit, OnDestroy {
           console.log(error);
           this.spinner = false;
       });
+  }
+
+
+  //Delete MyRecipe
+  onDeleteMyRecipe(){
+    const unUsedMyRecipeObject = {
+      publisher: '',
+      ingredients: [],
+      source_url: '',
+      image_url: '',
+      id: '',
+      title: '',
+      servings: 99,
+      cooking_time: 99,
+      myRecipe: true
+    }
+    this.dataStorage.myRecipesUpdate(true, unUsedMyRecipeObject, this.recipeID, true ).subscribe();
   }
 }
