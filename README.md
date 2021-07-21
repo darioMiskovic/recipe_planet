@@ -30,5 +30,9 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 
 recipe-search-results component ts
 
+add recipe response
+
+auth guard
+
 mobile responsive
 

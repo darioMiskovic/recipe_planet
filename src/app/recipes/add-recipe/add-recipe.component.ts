@@ -5,7 +5,7 @@ import {IngredientInfoModel} from "../models/ingredientInfo.model";
 import {HttpClient} from "@angular/common/http";
 import {RecipesService} from "../recipes.service";
 import {Subscription} from "rxjs";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
   selector: 'app-add-recipe',
@@ -20,7 +20,15 @@ export class AddRecipeComponent implements OnInit, OnDestroy {
   currentUserID!: number;
   updateRecipe = false;
   recipeID!: number;
-  constructor(private fb: FormBuilder, private http: HttpClient, private recipeService: RecipesService, private route: ActivatedRoute) { }
+  spinner = false;
+  message!: string;
+
+  constructor(private fb: FormBuilder,
+              private http: HttpClient,
+              private recipeService: RecipesService,
+              private route: ActivatedRoute,
+              private router: Router
+  ) { }
 
   ngOnInit(): void {
     this.init();
@@ -114,7 +122,7 @@ export class AddRecipeComponent implements OnInit, OnDestroy {
 
   //Submit Form
   onSubmit(){
-
+    this.spinner = true;
     const myRecipe: RecipeInfoModel = this.recipeForm.getRawValue();
 
     myRecipe.ingredients = this.convertToIngrInfo(myRecipe);
@@ -133,8 +141,14 @@ export class AddRecipeComponent implements OnInit, OnDestroy {
 
       }).subscribe((res:any) => {
         console.log(res);
+        this.spinner = false;
+        this.message = res;
+        setTimeout(()=>{
+        this.router.navigate(['recipes','add-recipe'])
+        }, 1500)
       }, error => {
-        console.log(error)
+        console.log(error);
+        this.spinner = false;
       })
 
       this.updateRecipe = false;
@@ -151,8 +165,15 @@ export class AddRecipeComponent implements OnInit, OnDestroy {
 
     }).subscribe((res:any) => {
       console.log(res);
+      this.spinner = false;
+      this.message = res;
+      setTimeout(()=>{
+      this.recipeForm.reset();
+      this.message = '';
+      }, 1500)
     }, error => {
       console.log(error)
+      this.spinner = false;
     })
 
   }

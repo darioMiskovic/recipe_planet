@@ -1,5 +1,7 @@
 <div class="add-recipe-window">
   <form class="upload" [formGroup]="recipeForm" (ngSubmit)="onSubmit()">
+  <app-spinner appAbsolutePos *ngIf="spinner"></app-spinner>
+  <app-message appAbsolutePos *ngIf="message" [messageContent]="message"></app-message>
     <div class="upload__column">
       <h3 class="upload__heading">Recipe data</h3>
       <label>Title</label>
