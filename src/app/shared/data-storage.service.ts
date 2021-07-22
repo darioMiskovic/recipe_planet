@@ -85,6 +85,7 @@ export class DataStorageService {
 
     }, error => {
       this.recipesService.loadSpinner.next(false);
+      this.recipesService.myRecipes = [];
       this.recipesService.myRecipeSearch.next([]);
     });
   }
@@ -102,11 +103,25 @@ export class DataStorageService {
 
       const updatedMyRecipesArr = this.recipesService.myRecipes.map(recipe => JSON.stringify(recipe)+'<>').join('');
       return this.http.post('http://127.0.0.1:8000/api/my-recipe/update', {my_recipe: updatedMyRecipesArr})
+        .pipe(map( (response: any) => {
+          return {
+            type: response.split(' ')[2],
+            resMessage: response,
+            deleteRecipe: deleteMyRecipe,
+            recipeID: myRecipe.id
+          }
+        }))
     }
 
     this.recipesService.myRecipes.push(myRecipe);
-    return this.http.post('http://127.0.0.1:8000/api/my-recipe', {my_recipe: (JSON.stringify(myRecipe)+'<>')})
-
+    this.recipesService.myRecipeSearch.next(this.recipesService.myRecipes);
+     return this.http.post('http://127.0.0.1:8000/api/my-recipe', {my_recipe: (JSON.stringify(myRecipe)+'<>')})
+       .pipe(map( (response: any) => {
+         return {
+           type: response.split(' ')[2],
+           resMessage: response
+         }
+       }))
   }
 
 }

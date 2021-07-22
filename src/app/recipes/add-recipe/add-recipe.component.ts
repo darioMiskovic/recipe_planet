@@ -6,7 +6,7 @@ import {RecipesService} from "../recipes.service";
 import {Subscription} from "rxjs";
 import {ActivatedRoute, Router} from "@angular/router";
 import {DataStorageService} from "../../shared/data-storage.service";
-import {map} from "rxjs/operators";
+
 
 @Component({
   selector: 'app-add-recipe',
@@ -32,6 +32,7 @@ export class AddRecipeComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
+
     this.init();
     this.subscription =this.dataStorage.currentUser.subscribe(res => {
       // @ts-ignore
@@ -41,8 +42,12 @@ export class AddRecipeComponent implements OnInit, OnDestroy {
     this.route.params.subscribe(param => {
       if(param.id){
         this.editMyRecipe(param.id);
+      }else{
+        this.dataStorage.fetchMyRecipes();
       }
     })
+
+    console.log(this.recipeForm);
   }
 
   ngOnDestroy() {
@@ -103,6 +108,7 @@ export class AddRecipeComponent implements OnInit, OnDestroy {
 
   onDeleteIngredient(id: number){
     this.ingredients.controls.splice(id,1);
+    this.recipeForm.setControl('ingredients', this.ingredients);
   }
 
   //Convert to valid ingr object
@@ -130,18 +136,19 @@ export class AddRecipeComponent implements OnInit, OnDestroy {
         if(response.type === 'added'){
           this.init();
           this.message = '';
-
         }else{
           this.updateRecipe = false;
           this.message = '';
-          this.router.navigate(['recipes','add-recipe']);
+          this.init();
+          response.deleteRecipe ?
+            this.router.navigate(['recipes','add-recipe']) : this.router.navigate(['recipes', response.recipeID]);
         }
       }, 1500)
   }
 
   //Submit Form
   onSubmit(){
-
+    console.log(this.recipeForm);
     this.spinner = true;
     const myRecipe: RecipeInfoModel = this.recipeForm.getRawValue();
 
@@ -150,12 +157,6 @@ export class AddRecipeComponent implements OnInit, OnDestroy {
     myRecipe.id =  "#"+(Math.random() * 1).toString().split('.')[1].split('').slice(0,6).join("");
 
     this.dataStorage.myRecipesUpdate(this.updateRecipe, myRecipe, this.recipeID)
-      .pipe(map( (response: any) => {
-        return {
-          type: response.split(' ')[2],
-          resMessage: response
-        }
-      }))
       .subscribe(res => {
         this.myRecipeResponse(res);
       }, error => {
@@ -178,6 +179,12 @@ export class AddRecipeComponent implements OnInit, OnDestroy {
       cooking_time: 99,
       myRecipe: true
     }
-    this.dataStorage.myRecipesUpdate(true, unUsedMyRecipeObject, this.recipeID, true ).subscribe();
+    this.dataStorage.myRecipesUpdate(true, unUsedMyRecipeObject, this.recipeID, true )
+      .subscribe(res => {
+        this.myRecipeResponse(res);
+      }, error => {
+        console.log(error);
+        this.spinner = false;
+      });
   }
 }

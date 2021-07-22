@@ -13,12 +13,7 @@ export class RecipesComponent implements OnInit {
   }
 
   ngOnInit() {
-    const currentUser = (this.route.snapshot.data['currentUser']);
-    this.dataStorage.currentUser.next(currentUser);
     this.dataStorage.fetchBookmarks();
   }
-
-
-
 
 }

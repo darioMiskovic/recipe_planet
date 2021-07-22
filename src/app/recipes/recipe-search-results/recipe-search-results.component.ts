@@ -32,8 +32,8 @@ export class RecipeSearchResultsComponent implements OnInit, OnDestroy {
 
     this.subscriber = this.recipeService.myRecipeSearch.subscribe(recipeArr => {
       recipeArr.length < 1 ? this.errorMsg = true: this.errorMsg = false;
-      console.log(recipeArr);
       this.recipesArray = (recipeArr);
+
     })
   }
 
