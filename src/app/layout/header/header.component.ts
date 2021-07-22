@@ -16,7 +16,7 @@ import {DataStorageService} from "../../shared/data-storage.service";
 export class HeaderComponent implements OnInit, OnDestroy {
 
   @ViewChild('f') form!: NgForm;
-  subscription = new Subscription();
+  subscription: Subscription = new Subscription();
   currentUser!: UserModel;
   activeToken!:boolean;
   bookmarks!: RecipeModel[];
@@ -30,14 +30,17 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
 
-   this.subscription = this.dataStorage.currentUser.subscribe(user => {
+   const subscriber1 = this.dataStorage.currentUser.subscribe(user => {
      this.activeToken = localStorage.getItem('token') !== null;
      this.currentUser = user!;
     })
 
-     this.recipesService.myBookmarksUpdated.subscribe((res: RecipeModel[]) => {
+    const subscriber2 = this.recipesService.myBookmarksUpdated.subscribe((res: RecipeModel[]) => {
       this.bookmarks = res;
     })
+
+    this.subscription.add(subscriber1);
+    this.subscription.add(subscriber2);
   }
 
   //Search recipe

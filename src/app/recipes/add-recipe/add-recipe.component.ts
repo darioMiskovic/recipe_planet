@@ -32,7 +32,6 @@ export class AddRecipeComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-
     this.init();
     this.subscription =this.dataStorage.currentUser.subscribe(res => {
       // @ts-ignore
@@ -46,8 +45,6 @@ export class AddRecipeComponent implements OnInit, OnDestroy {
         this.dataStorage.fetchMyRecipes();
       }
     })
-
-    console.log(this.recipeForm);
   }
 
   ngOnDestroy() {
@@ -148,7 +145,6 @@ export class AddRecipeComponent implements OnInit, OnDestroy {
 
   //Submit Form
   onSubmit(){
-    console.log(this.recipeForm);
     this.spinner = true;
     const myRecipe: RecipeInfoModel = this.recipeForm.getRawValue();
 
