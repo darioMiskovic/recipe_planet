@@ -2,7 +2,7 @@
 <form #f="ngForm" (ngSubmit)="onSubmit(f)" class="userFormBox">
   <app-message appAbsolutePos *ngIf="errorMsg" [errorMsg]="errorMsg?true:false" [errorMessageContent]="errorMsg"></app-message>
   <app-spinner appAbsolutePos *ngIf="spinner"></app-spinner>
-  <img src="../../../assets/img/favicon.png" alt="logo">
+  <img src="../../../assets/img/recipeplanetlogo.png" alt="logo">
 
   <label for="email">Email</label>
   <input ngModel  name="email" type="email" id="email" required email/>

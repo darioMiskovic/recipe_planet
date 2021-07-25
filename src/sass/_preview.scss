@@ -30,7 +30,7 @@
     backface-visibility: hidden;
 
     &::before {
-      content: '';
+      content: "";
       display: block;
       height: 100%;
       width: 100%;
@@ -38,9 +38,9 @@
       top: 0;
       left: 0;
       background-image: linear-gradient(
-          to right bottom,
-          $color-grad-1,
-          $color-grad-2
+        to right bottom,
+        $color-grad-1,
+        $color-grad-2
       );
       opacity: 0.4;
     }
@@ -68,12 +68,6 @@
     color: $color-primary;
     text-transform: uppercase;
     font-weight: 600;
-
-    // This is how text is truncated!
-    //text-overflow: ellipsis;
-    //max-width: 25rem;
-    //white-space: nowrap;
-    //overflow: hidden;
   }
 
   &__publisher {

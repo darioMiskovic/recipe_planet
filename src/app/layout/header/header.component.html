@@ -1,6 +1,17 @@
-<header class="header">
-  <img src="../assets/img/logo.png" alt="Logo" class="header__logo" routerLink="/"/>
-  <form class="search"  #f="ngForm"  (ngSubmit) = "onSearch(f)" *ngIf="currentUser && activeToken">
+<header class="header" *ngIf="currentUser && activeToken">
+  <picture>
+    <source
+      media="(max-width: 500px)"
+      srcset="../assets/img/logo_wtht_txt.png"
+    />
+    <img
+      src="../assets/img/recipeplanetlogo.png"
+      alt="Logo"
+      class="header__logo"
+      routerLink="/"
+    />
+  </picture>
+  <form class="search" #f="ngForm" (ngSubmit)="onSearch(f)">
     <input
       type="text"
       class="search__field"
@@ -22,57 +33,85 @@
     </button>
   </form>
 
-  <nav class="nav" *ngIf="currentUser && activeToken">
+  <nav class="nav">
     <ul class="nav__list">
       <li class="nav__item">
-        <button class="nav__btn nav__btn--bookmarks">
+        <button class="nav__btn nav__btn--bookmarks" appCloseBtn>
           <svg class="nav__icon">
             <use href="../assets/img/icons.svg#icon-bookmark"></use>
           </svg>
           <span>Bookmarks</span>
         </button>
-        <div class="bookmarks">
-          <ul class="bookmarks__list">
-            <div class="message" *ngIf="!bookmarks || bookmarks.length < 1">
-              <div>
-                <svg>
-                  <use href="../assets/img/icons.svg#icon-smile"></use>
-                </svg>
-              </div>
-              <p>
-                No bookmarks yet. Find a nice recipe and bookmark it :)
-              </p>
+        <ul class="bookmarks">
+          <div class="message" *ngIf="!bookmarks || bookmarks.length < 1">
+            <div>
+              <svg>
+                <use href="../assets/img/icons.svg#icon-smile"></use>
+              </svg>
             </div>
-            <!--Bookmarks-->
-                <li class="preview" *ngFor="let bookmark of bookmarks">
-                  <a class="preview__link" [routerLink]="['/recipes', bookmark.id]">
-                    <figure class="preview__fig">
-                      <img [src]="bookmark.image_url" [alt]="bookmark.title" />
-                    </figure>
-                    <div class="preview__data">
-                      <h4 class="preview__title">
-                        {{bookmark.title | truncate:27}}
-                      </h4>
-                      <p class="preview__publisher">{{bookmark.publisher}}</p>
-                    </div>
-                  </a>
-                </li>
-          </ul>
-        </div>
+            <p>No bookmarks yet. Find a nice recipe and bookmark it :)</p>
+          </div>
+          <!--Bookmarks-->
+
+          <div #cta class="close-cta" appCloseBtn>
+            <button type="button">
+              <svg>
+                <use href="../assets/img/icons.svg#icon-cross"></use>
+              </svg>
+            </button>
+          </div>
+
+          <li class="preview" *ngFor="let bookmark of bookmarks">
+            <a class="preview__link" [routerLink]="['/recipes', bookmark.id]">
+              <figure class="preview__fig">
+                <img [src]="bookmark.image_url" [alt]="bookmark.title" />
+              </figure>
+              <div class="preview__data">
+                <h4 class="preview__title">
+                  {{ bookmark.title | truncate: 27 }}
+                </h4>
+                <p class="preview__publisher">{{ bookmark.publisher }}</p>
+              </div>
+            </a>
+          </li>
+        </ul>
       </li>
 
       <li class="nav__item-pr">
-
-        <button class="nav__btn ">
-          <svg class="nav__icon">
+        <button class="nav__btn" appCloseBtn>
+          <svg class="nav__icon" id="user-icon">
             <use href="../assets/img/icons.svg#icon-user"></use>
           </svg>
-          <span>{{currentUser.first_name}}</span>
+
+          <svg class="nav-icon" id="hamburger-menu-icon">
+            <use href="../assets/img/icons.svg#icon-menu"></use>
+          </svg>
+          <span>{{ currentUser.first_name }}</span>
         </button>
 
         <ul class="nav__item--list">
-          <li class="nav__item--list-item" [routerLink]="['/recipes','add-recipe']" >
-            <button class="nav__btn nav__btn--add-recipe" >
+          <div #cta class="close-cta" appCloseBtn>
+            <button type="button">
+              <svg>
+                <use href="../assets/img/icons.svg#icon-cross"></use>
+              </svg>
+            </button>
+          </div>
+
+          <li class="nav__item--list-item">
+            <button class="nav__btn">
+              <svg class="nav__icon">
+                <use href="../assets/img/icons.svg#icon-user"></use>
+              </svg>
+              <span>{{ currentUser.first_name }}</span>
+            </button>
+          </li>
+
+          <li class="nav__item--list-item">
+            <button
+              class="nav__btn nav__btn--add-recipe"
+              [routerLink]="['/recipes', 'add-recipe']"
+            >
               <svg class="nav__icon">
                 <use href="../assets/img/icons.svg#icon-edit"></use>
               </svg>
@@ -93,7 +132,7 @@
             </button>
           </li>
 
-          <li class="nav__item--list-item" >
+          <li class="nav__item--list-item">
             <button class="nav__btn nav__btn--add-recipe" (click)="onLogout()">
               <svg class="nav__icon">
                 <use href="../assets/img/icons.svg#icon-exit"></use>

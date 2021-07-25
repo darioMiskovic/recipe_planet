@@ -1,26 +1,33 @@
 <app-spinner *ngIf="loadingSpinner"></app-spinner>
-<app-message [errorMsg]="true" *ngIf="errorMsg && !loadingSpinner"></app-message>
+<app-message
+  [errorMsg]="true"
+  *ngIf="errorMsg && !loadingSpinner"
+></app-message>
 
-<ul class="results" *ngIf="!loadingSpinner && recipesArray">
-  <li class="preview" *ngFor="let recipe of recipesArray | paginate: { itemsPerPage: 10, currentPage: page }">
-        <a
-          class="preview__link"
-          [routerLink]="[recipe.id]"
-        >
-          <figure class="preview__fig">
-            <img [src]="recipe.image_url" [alt]="recipe.title" />
-          </figure>
-          <div class="preview__data">
-            <h4 class="preview__title">{{recipe.title | truncate:27}}</h4>
-            <p class="preview__publisher">{{recipe.publisher}}</p>
-          </div>
-        </a>
+<ul class="results" *ngIf="!loadingSpinner && !!recipesArray">
+  <li
+    class="preview"
+    *ngFor="
+      let recipe of recipesArray
+        | paginate: { itemsPerPage: 10, currentPage: page }
+    "
+  >
+    <a class="preview__link" [routerLink]="[recipe.id]">
+      <figure class="preview__fig">
+        <img [src]="recipe.image_url" [alt]="recipe.title" />
+      </figure>
+      <div class="preview__data">
+        <h4 class="preview__title">{{ recipe.title | truncate: 27 }}</h4>
+        <p class="preview__publisher">{{ recipe.publisher }}</p>
+      </div>
+    </a>
   </li>
 </ul>
 
 <pagination-controls
   class="my-pagination"
-  *ngIf="!loadingSpinner && recipesArray !== undefined && recipesArray.length > 10"
+  *ngIf="
+    !loadingSpinner && recipesArray !== undefined && recipesArray.length > 10
+  "
   (pageChange)="page = $event"
 ></pagination-controls>
-

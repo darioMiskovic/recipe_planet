@@ -1,19 +1,6 @@
-.add-recipe-window {
-  //position: absolute;
-  //top: 50%;
-  //left: 50%;
-  //transform: translate(-50%, -50%);
-
-
-}
-
 .upload {
   padding: 1rem;
   position: relative;
-  //display: grid;
-  //grid-template-columns: 1fr 1fr;
-  //gap: 4rem 6rem;
-  //padding: 3rem;
 
   &__column {
     display: grid;
@@ -62,40 +49,84 @@
     align-self: flex-start;
   }
 
-  &__ingredient{
+  &__ingredient {
     grid-column: 1/3;
 
-    label{display: block}
+    label {
+      display: block;
+    }
 
-    & input[type=text]{
+    & input[type="text"] {
       width: 90%;
     }
   }
 
-  &__cta{
+  &__cta {
     display: flex;
     justify-content: space-evenly;
   }
 
-  &__btn {
-    //grid-column: 1 / 1;
-    //justify-self: self-start;
-    //display: inline-block;
+  @media only screen and (max-width: $bp-small) {
+    padding: 2rem;
+
+    &__column {
+      display: flex;
+      flex-direction: column;
+
+      & label {
+        align-self: self-start;
+      }
+
+      & input {
+        width: 100%;
+      }
+    }
+
+    &__ingredient {
+      width: 100%;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+
+      & label {
+        margin-bottom: 1rem;
+      }
+
+      & input[type="text"] {
+        width: 85%;
+      }
+
+      & button {
+        margin-top: 0;
+      }
+    }
+
+    &__cta {
+      flex-direction: column;
+
+      button {
+        justify-content: center;
+        &:last-child {
+          margin: 2rem 0;
+        }
+
+        &:hover {
+          transform: none;
+        }
+      }
+      .upload__btn {
+        order: 1;
+      }
+    }
   }
-
 }
 
-.add__ingredient__btn{
-  //justify-self: center;
-  //display: inline-block;
-}
-
-.userFormBox{
+.userFormBox {
   min-width: 50rem;
   min-height: 30rem;
   background-color: #fff;
   position: absolute;
-  top: 20%;
+  top: 15%;
   left: 50%;
   transform: translateX(-50%);
   border-radius: 1rem;
@@ -104,10 +135,14 @@
   display: flex;
   flex-direction: column;
 
+  @media only screen and (max-width: $bp-small) {
+    min-width: 90%;
+  }
+
   & img {
-    width: 7rem;
+    width: 20rem;
     align-self: center;
-    margin-bottom: 3rem;
+    margin-bottom: 5rem;
   }
 
   & label {
@@ -123,19 +158,18 @@
     border-radius: 0.5rem;
     margin-bottom: 2rem;
 
-
-    &:focus{
+    &:focus {
       outline-color: #ddd;
     }
   }
 
-  & .btn{
+  & .btn {
     align-self: center;
-    margin-top:3rem;
+    margin-top: 3rem;
   }
 
   .accQuest {
-    text-underline: none;
+    text-decoration: none;
     color: $color-grey-dark-2;
     font-size: 1.3rem;
     align-self: center;

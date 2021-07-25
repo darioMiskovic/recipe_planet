@@ -1,24 +1,23 @@
-import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {RecipesService} from "../../recipes/recipes.service";
-import {HttpClient} from "@angular/common/http";
-import {NgForm} from "@angular/forms";
-import {Subscription} from "rxjs";
-import {UserModel} from "../../recipes/models/user.model";
-import {RecipeModel} from "../../recipes/models/recipe.model";
-import {Router} from "@angular/router";
-import {DataStorageService} from "../../shared/data-storage.service";
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { RecipesService } from '../../recipes/recipes.service';
+import { HttpClient } from '@angular/common/http';
+import { NgForm } from '@angular/forms';
+import { Subscription } from 'rxjs';
+import { UserModel } from '../../recipes/models/user.model';
+import { RecipeModel } from '../../recipes/models/recipe.model';
+import { Router } from '@angular/router';
+import { DataStorageService } from '../../shared/data-storage.service';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
-  styleUrls: ['./header.component.scss']
+  styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent implements OnInit, OnDestroy {
-
   @ViewChild('f') form!: NgForm;
   subscription: Subscription = new Subscription();
   currentUser!: UserModel;
-  activeToken!:boolean;
+  activeToken!: boolean;
   bookmarks!: RecipeModel[];
 
   constructor(
@@ -26,43 +25,49 @@ export class HeaderComponent implements OnInit, OnDestroy {
     private http: HttpClient,
     private router: Router,
     private dataStorage: DataStorageService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
+    const subscriber1 = this.dataStorage.currentUser.subscribe((user) => {
+      this.activeToken = localStorage.getItem('token') !== null;
+      this.currentUser = user!;
+    });
 
-   const subscriber1 = this.dataStorage.currentUser.subscribe(user => {
-     this.activeToken = localStorage.getItem('token') !== null;
-     this.currentUser = user!;
-    })
-
-    const subscriber2 = this.recipesService.myBookmarksUpdated.subscribe((res: RecipeModel[]) => {
-      this.bookmarks = res;
-    })
+    const subscriber2 = this.recipesService.myBookmarksUpdated.subscribe(
+      (res: RecipeModel[]) => {
+        this.bookmarks = res;
+      }
+    );
 
     this.subscription.add(subscriber1);
     this.subscription.add(subscriber2);
   }
 
   //Search recipe
-  onSearch(form: NgForm){
+  onSearch(form: NgForm) {
     this.recipesService.loadSpinner.next(true);
     const query = form.value.searchValue;
-    this.http.get('https://forkify-api.herokuapp.com/api/v2/recipes?search=' + query).subscribe((res: any) => {
-      this.recipesService.loadSpinner.next(false);
-      this.recipesService.recipeSearch.next(res.data.recipes);
-      this.form.reset();
-    }, error => {
-      console.log(error);
-      //API doesnt provide ERROR Message
-    });
+    this.http
+      .get('https://forkify-api.herokuapp.com/api/v2/recipes?search=' + query)
+      .subscribe(
+        (res: any) => {
+          this.recipesService.loadSpinner.next(false);
+          this.recipesService.recipeSearch.next(res.data.recipes);
+          this.form.reset();
+        },
+        (error) => {
+          console.log(error);
+          //API doesnt provide ERROR Message
+        }
+      );
   }
 
   //Fetch my recipes
-  onFetchMyRecipes(){
+  onFetchMyRecipes() {
     this.dataStorage.fetchMyRecipes();
   }
 
-  onLogout(){
+  onLogout() {
     localStorage.removeItem('token');
     this.activeToken = false;
     this.router.navigate(['login']);
@@ -71,5 +76,4 @@ export class HeaderComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.subscription.unsubscribe();
   }
-
 }

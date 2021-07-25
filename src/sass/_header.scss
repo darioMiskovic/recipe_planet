@@ -12,6 +12,12 @@
     display: block;
     cursor: pointer;
   }
+
+  @media only screen and (max-width: $bp-small) {
+    img {
+      margin: 0 1rem;
+    }
+  }
 }
 
 .search {
@@ -42,8 +48,15 @@
     &::placeholder {
       color: $color-grey-light-3;
     }
+  }
 
-    @media only screen and (max-width: $bp-medium) {
+  &__btn {
+    font-weight: 600;
+    font-family: inherit;
+  }
+
+  @media only screen and (max-width: $bp-medium) {
+    &__field {
       width: auto;
 
       &::placeholder {
@@ -52,15 +65,32 @@
     }
   }
 
-  &__btn {
-    font-weight: 600;
-    font-family: inherit;
+  @media only screen and (max-width: $bp-small) {
+    &__field {
+      font-size: 1.5rem;
+    }
+
+    &__btn {
+      background: transparent;
+      color: $color-primary;
+      padding: 1rem;
+      & > *:first-child {
+        margin: 0;
+      }
+      span {
+        display: none;
+      }
+    }
   }
 }
 
 .nav {
   align-self: stretch;
   margin-right: 2.5rem;
+
+  @media only screen and (max-width: $bp-small) {
+    margin: 0;
+  }
 
   &__list {
     list-style: none;
@@ -69,23 +99,24 @@
   }
 
   &__item {
-
-    &-pr{
+    &-pr {
       position: relative;
+
       button {
         min-width: 17rem;
         justify-content: center;
-      }
 
-      &:hover .nav__item--list{
-        visibility: visible;
-        opacity: 1;
-
+        @media only screen and (max-width: $bp-small) {
+          min-width: auto;
+          span {
+            display: none;
+          }
+        }
       }
     }
 
     //Hover list
-    &--list{
+    &--list {
       visibility: hidden;
       opacity: 0;
       z-index: 10;
@@ -98,10 +129,51 @@
       box-shadow: 0 0.8rem 5rem 2rem rgba($color-grey-dark-1, 0.1);
       transition: all 0.5s 0.2s;
 
-      & > li {
+      &-item {
+        &:first-of-type {
+          display: none;
+        }
         button {
           justify-content: end;
           padding: 1.2rem 1rem;
+        }
+      }
+
+      &:hover {
+        visibility: visible;
+        opacity: 1;
+      }
+    }
+
+    @media only screen and (max-width: $bp-small) {
+      &-pr {
+        position: static;
+      }
+
+      &--list {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        bottom: 0;
+        width: 20rem;
+        height: 100%;
+        background-color: $color-grey-light-2;
+        padding-left: 2rem;
+        box-shadow: 0 0.8rem 5rem 2rem rgba($color-grey-dark-1, 0.22);
+
+        &-item {
+          &:first-of-type {
+            display: block;
+          }
+
+          button {
+            width: 100%;
+            margin: 1rem 0;
+
+            span {
+              display: block;
+            }
+          }
         }
       }
     }
@@ -129,6 +201,13 @@
       fill: $color-primary;
       margin-right: 0.7rem;
       transform: translateY(-1px);
+
+      &#user-icon {
+        display: block;
+      }
+      &#hamburger-menu-icon {
+        display: none;
+      }
     }
 
     &:focus {
@@ -137,6 +216,23 @@
 
     &:hover {
       background-color: $color-grey-light-2;
+    }
+
+    &--bookmarks {
+      @media only screen and (max-width: $bp-small) {
+        span {
+          display: none;
+        }
+      }
+    }
+
+    @media only screen and (max-width: $bp-small) {
+      svg#user-icon {
+        display: none;
+      }
+      svg#hamburger-menu-icon {
+        display: block;
+      }
     }
   }
 }
@@ -149,14 +245,11 @@
   width: 40rem;
   background-color: #fff;
   box-shadow: 0 0.8rem 5rem 2rem rgba($color-grey-dark-1, 0.1);
+  list-style: none;
 
   visibility: hidden;
   opacity: 0;
   transition: all 0.5s 0.2s;
-
-  &__list {
-    list-style: none;
-  }
 
   &__field {
     cursor: pointer;
@@ -172,9 +265,20 @@
     }
   }
 
-  &:hover,
-  .nav__btn--bookmarks:hover + & {
+  &:hover {
     visibility: visible;
     opacity: 1;
+  }
+
+  @media only screen and (max-width: $bp-small) {
+    top: 52.8px;
+    left: 0;
+    right: 0%;
+    width: 100%;
+
+    &:hover {
+      visibility: hidden;
+      opacity: 0;
+    }
   }
 }
