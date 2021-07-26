@@ -118,7 +118,7 @@ export class DataStorageService {
      return this.http.post('http://127.0.0.1:8000/api/my-recipe', {my_recipe: (JSON.stringify(myRecipe)+'<>')})
        .pipe(map( (response: any) => {
          return {
-           type: response.split(' ')[2],
+           type: response.split(' ')[3],
            resMessage: response
          }
        }))

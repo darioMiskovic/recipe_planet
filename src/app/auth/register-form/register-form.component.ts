@@ -29,20 +29,19 @@ export class RegisterFormComponent {
 
   onSubmit(registerForm: NgForm){
 
-    console.log(registerForm);
-  //   this.spinner = true;
-  //   const formData = (registerForm.form.getRawValue());
-  //
-  //   if(formData.password !== formData.password_confirmation){
-  //     this.responseAction('Please enter password fields correctly', false, true);
-  //     return;
-  //   }
-  //
-  //   this.http.post('http://127.0.0.1:8000/api/register', formData, {responseType: 'text'}).subscribe(res => {
-  //     this.responseAction('You have successfully registered', true);
-  //   }, error => {
-  //     this.responseAction('Email adress is already taken',false, true);
-  //   })
+    this.spinner = true;
+    const formData = (registerForm.form.getRawValue());
+
+    if(formData.password !== formData.password_confirmation){
+      this.responseAction('Please enter password fields correctly', false, true);
+      return;
+    }
+
+    this.http.post('http://127.0.0.1:8000/api/register', formData, {responseType: 'text'}).subscribe(res => {
+      this.responseAction('You have successfully registered', true);
+    }, error => {
+      this.responseAction('Email adress is already taken',false, true);
+    })
   }
 
 
