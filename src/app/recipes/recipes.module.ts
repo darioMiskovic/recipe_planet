@@ -4,12 +4,10 @@ import {RecipeSearchResultsComponent} from "./recipe-search-results/recipe-searc
 import {RecipesComponent} from "./recipes.component";
 import {AddRecipeComponent} from "./add-recipe/add-recipe.component";
 import {RecipeComponent} from "./recipe/recipe.component";
-import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
-import {AppRoutingModule} from "../app-routing.module";
+import {HttpClientModule} from "@angular/common/http";
 import {ReactiveFormsModule} from "@angular/forms";
 import {SharedModule} from "../shared/shared.module";
-import {RecipeInterceptorService} from "./recipe-interceptor.service";
-import {RecipesResolverService} from "./recipes-resolver.service";
+import {RecipesRoutingModule} from "./recipes-routing.module";
 
 //NPX Pagination
 import {NgxPaginationModule} from 'ngx-pagination';
@@ -25,21 +23,13 @@ import {NgxPaginationModule} from 'ngx-pagination';
   imports:[
     CommonModule,
     HttpClientModule,
-    AppRoutingModule,
     ReactiveFormsModule,
     SharedModule,
-    NgxPaginationModule
+    NgxPaginationModule,
+    RecipesRoutingModule
   ],
 
-  providers: [
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: RecipeInterceptorService,
-      multi: true
-    },
-
-    RecipesResolverService
-  ]
+  providers: []
 })
 
 export class RecipesModule{}
