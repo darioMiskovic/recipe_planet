@@ -1,10 +1,13 @@
-<div class="message" >
+<article class="message">
   <div>
     <svg>
       <use *ngIf="!errorMsg" href="../assets/img/icons.svg#icon-smile"></use>
-      <use *ngIf="errorMsg" href="../assets/img/icons.svg#icon-alert-triangle"></use>
+      <use
+        *ngIf="errorMsg"
+        href="../assets/img/icons.svg#icon-alert-triangle"
+      ></use>
     </svg>
   </div>
-  <p *ngIf="!errorMsg">{{messageContent}}</p>
-  <p *ngIf="errorMsg">{{errorMessageContent}}</p>
-</div>
+  <p *ngIf="!errorMsg">{{ messageContent }}</p>
+  <p *ngIf="errorMsg">{{ errorMessageContent }}</p>
+</article>

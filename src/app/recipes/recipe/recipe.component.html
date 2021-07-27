@@ -1,11 +1,15 @@
 <app-message *ngIf="!recipeStatus && !spinner"></app-message>
 <app-spinner *ngIf="spinner"></app-spinner>
 
-<div class="recipe" *ngIf="recipeStatus">
+<section class="recipe" *ngIf="recipeStatus">
   <figure class="recipe__fig">
-    <img [src]="[recipeInfo.image_url]" [alt]="[recipeInfo.title]" class="recipe__img" />
+    <img
+      [src]="[recipeInfo.image_url]"
+      [alt]="[recipeInfo.title]"
+      class="recipe__img"
+    />
     <h1 class="recipe__title">
-      <span>{{recipeInfo.title}}</span>
+      <span>{{ recipeInfo.title }}</span>
     </h1>
   </figure>
 
@@ -14,18 +18,26 @@
       <svg class="recipe__info-icon">
         <use href="../assets/img/icons.svg#icon-clock"></use>
       </svg>
-      <span class="recipe__info-data recipe__info-data--minutes">{{recipeInfo.cooking_time}}</span>
+      <span class="recipe__info-data recipe__info-data--minutes">{{
+        recipeInfo.cooking_time
+      }}</span>
       <span class="recipe__info-text">minutes</span>
     </div>
     <div class="recipe__info">
       <svg class="recipe__info-icon">
         <use href="../assets/img/icons.svg#icon-users"></use>
       </svg>
-      <span class="recipe__info-data recipe__info-data--people">{{recipeInfo.servings}}</span>
+      <span class="recipe__info-data recipe__info-data--people">{{
+        recipeInfo.servings
+      }}</span>
       <span class="recipe__info-text">servings</span>
     </div>
 
-    <button class="btn--round" *ngIf="myRecipe" [routerLink]="['/recipes','edit', recipeInfo.id]">
+    <button
+      class="btn--round"
+      *ngIf="myRecipe"
+      [routerLink]="['/recipes', 'edit', recipeInfo.id]"
+    >
       <svg class="">
         <use href="../assets/img/icons.svg#icon-edit"></use>
       </svg>
@@ -33,25 +45,32 @@
 
     <button class="btn--round" *ngIf="!myRecipe" (click)="onBookmark()">
       <svg class="">
-        <use *ngIf="!bookmarkID" href="../assets/img/icons.svg#icon-bookmark"></use>
-        <use *ngIf="bookmarkID" href="../assets/img/icons.svg#icon-bookmark-fill"></use>
+        <use
+          *ngIf="!bookmarkID"
+          href="../assets/img/icons.svg#icon-bookmark"
+        ></use>
+        <use
+          *ngIf="bookmarkID"
+          href="../assets/img/icons.svg#icon-bookmark-fill"
+        ></use>
       </svg>
     </button>
-
   </div>
 
   <div class="recipe__ingredients">
     <h2 class="heading--2">Recipe ingredients</h2>
     <ul class="recipe__ingredient-list">
-
-      <li class="recipe__ingredient" *ngFor="let ingr of recipeInfo.ingredients">
+      <li
+        class="recipe__ingredient"
+        *ngFor="let ingr of recipeInfo.ingredients"
+      >
         <svg class="recipe__icon">
           <use href="../assets/img/icons.svg#icon-check"></use>
         </svg>
-        <div class="recipe__quantity">{{ingr.quantity}}</div>
+        <div class="recipe__quantity">{{ ingr.quantity }}</div>
         <div class="recipe__description">
-          <span class="recipe__unit">{{ingr.unit}}</span>
-          {{ingr.description}}
+          <span class="recipe__unit">{{ ingr.unit }}</span>
+          {{ ingr.description }}
         </div>
       </li>
     </ul>
@@ -61,8 +80,8 @@
     <h2 class="heading--2">How to cook it</h2>
     <p class="recipe__directions-text">
       This recipe was carefully designed and tested by
-      <span class="recipe__publisher">{{recipeInfo.publisher}}</span>. Please check out
-      directions at their website.
+      <span class="recipe__publisher">{{ recipeInfo.publisher }}</span
+      >. Please check out directions at their website.
     </p>
     <a
       class="btn--small recipe__btn"
@@ -75,5 +94,4 @@
       </svg>
     </a>
   </div>
-
-</div>
+</section>

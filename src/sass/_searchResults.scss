@@ -14,7 +14,7 @@
   padding: 0 3.5rem;
 
   &::after {
-    content: '';
+    content: "";
     display: table;
     clear: both;
   }
@@ -29,36 +29,23 @@
   }
 }
 
-.copyright {
-  color: $color-grey-dark-2;
-  font-size: 1.2rem;
-  padding: 0 3.5rem;
-  margin-top: 4rem;
-
-  .twitter-link:link,
-  .twitter-link:visited {
-    color: $color-grey-dark-2;
-  }
-}
-
-.my-pagination{
+.my-pagination {
   font-size: 1.4rem;
 
   .ngx-pagination {
-
     display: flex;
     justify-content: space-between;
 
-    .pagination-previous a{
+    .pagination-previous a {
       border-radius: 5px;
-      &::before{
-        content: '<';
+      &::before {
+        content: "<";
       }
     }
-    .pagination-next a{
+    .pagination-next a {
       border-radius: 5px;
-      &::after{
-        content: '>';
+      &::after {
+        content: ">";
       }
     }
 
@@ -67,7 +54,7 @@
       transition: all 0.3s ease-in-out;
     }
 
-    li:hover a{
+    li:hover a {
       background-color: $color-primary;
       color: #fff;
     }
@@ -78,11 +65,9 @@
       padding: 0;
       display: flex;
 
-      span{
+      span {
         padding: 0.7rem 1rem;
       }
     }
   }
 }
-
-
