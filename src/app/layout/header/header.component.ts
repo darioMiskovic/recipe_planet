@@ -58,6 +58,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
         (error) => {
           console.log(error);
           //API doesnt provide ERROR Message
+
         }
       );
   }

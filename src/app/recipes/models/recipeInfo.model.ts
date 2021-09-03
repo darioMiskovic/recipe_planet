@@ -1,12 +1,13 @@
 import {IngredientInfoModel} from "./ingredientInfo.model";
 
 export interface RecipeInfoModel{
+  id: number;
+  recipe_key: string;
   publisher: string;
-  ingredients: IngredientInfoModel[];
-  source_url: string;
-  image_url: string;
-  id: string;
   title: string;
+  image_url: string;
+  source_url: string;
+  ingredients: IngredientInfoModel[];
   servings: number;
   cooking_time: number;
   myRecipe?: boolean;

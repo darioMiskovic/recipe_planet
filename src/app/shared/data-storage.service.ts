@@ -65,6 +65,7 @@ export class DataStorageService {
   }
 
   removeBookmark(removeBookmarkID: string) {
+    /*
     const removeIndex = this.recipesService.myBookmarks.findIndex(
       (bookmark) => bookmark.id === removeBookmarkID
     );
@@ -88,6 +89,7 @@ export class DataStorageService {
           console.log(error);
         }
       );
+    */
   }
 
   //Recipe component

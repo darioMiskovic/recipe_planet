@@ -1,5 +1,5 @@
 export interface IngredientInfoModel{
-  quantity: number | string;
+  quantity: string;
   unit: string;
   description: string;
 }

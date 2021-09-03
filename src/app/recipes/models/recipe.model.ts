@@ -1,6 +1,7 @@
 export interface RecipeModel{
+  id?: number;
+  recipe_key: string;
   publisher: string;
   title: string;
-  id: string;
   image_url: string;
 }

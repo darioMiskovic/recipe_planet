@@ -1,11 +1,14 @@
+import {RecipeInfoModel} from "./recipeInfo.model";
+import {RecipeModel} from "./recipe.model";
+
 export interface UserModel{
-  id: number;
+  id: string;
   first_name: string;
   last_name: string;
   email: string;
-  my_recipes: string;
-  bookmarks: string;
-  created_at: string;
-  updated_at: string;
+  my_recipes: RecipeInfoModel[];
+  bookmarks?: string;
+  favorites: RecipeModel[];
+
 }
 

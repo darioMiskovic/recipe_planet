@@ -37,7 +37,7 @@ export class RegisterFormComponent {
       return;
     }
 
-    this.http.post('http://127.0.0.1:8000/api/register', formData, {responseType: 'text'}).subscribe(res => {
+    this.http.post('https://localhost:44317/api/Account/register', formData, {responseType: 'text'}).subscribe(res => {
       this.responseAction('You have successfully registered', true);
     }, error => {
       this.responseAction('Email adress is already taken',false, true);

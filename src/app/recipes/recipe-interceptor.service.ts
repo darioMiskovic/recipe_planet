@@ -10,28 +10,30 @@ export class RecipeInterceptorService implements HttpInterceptor{
   constructor(private recipeService: RecipesService, private dataStorage: DataStorageService) {
   }
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    const localhost = "http://127.0.0.1:8000/";
+    const localhost = "https://localhost:44317/";
 
-    if(req.url !== localhost+'api/register' && req.url !== localhost+'api/user' && req.url !== localhost+'oauth/token'){
-     const userID = (this.dataStorage.currentUserID).toString();
+    // if(req.url !== localhost+'api/Account/register' && req.url !== localhost+'api/Account/user/' && req.url !== localhost+'api/Account/login'){
+    //  const userID = (this.dataStorage.currentUserID).toString();
+    //
+    //   let clonedReq;
+    //   if(req.method === 'POST'){
+    //     clonedReq = req.clone({
+    //       headers: req.headers.set("currentUserID", userID),
+    //       responseType:'text'
+    //     });
+    //   }else {
+    //    clonedReq = req.clone({
+    //       headers: req.headers.set("currentUserID", userID),
+    //     });
+    //   }
+    //
+    //   return next.handle(clonedReq);
+    //
+    // }else{
+    //   return next.handle(req);
+    // }
 
-      let clonedReq;
-      if(req.method === 'POST'){
-        clonedReq = req.clone({
-          headers: req.headers.set("currentUserID", userID),
-          responseType:'text'
-        });
-      }else {
-       clonedReq = req.clone({
-          headers: req.headers.set("currentUserID", userID),
-        });
-      }
-
-      return next.handle(clonedReq);
-
-    }else{
-      return next.handle(req);
-    }
+    return next.handle(req);
   }
 
 }

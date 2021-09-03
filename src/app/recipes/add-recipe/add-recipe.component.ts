@@ -53,10 +53,13 @@ export class AddRecipeComponent implements OnInit, OnDestroy {
 
   //Edit recipe
   editMyRecipe(id: string){
-   this.recipeID = this.recipeService.myRecipes.findIndex((recipe: RecipeInfoModel) => recipe.id === id);
+   //this.recipeID = this.recipeService.myRecipes.findIndex((recipe: RecipeInfoModel) => recipe.id === id);
    const myRecipe = this.recipeService.myRecipes[this.recipeID];
 
    const stringifyIngrArr = myRecipe.ingredients.map(ingr => Object.values(ingr).join(','));
+
+   console.log(myRecipe.ingredients);
+   console.log(stringifyIngrArr);
 
    this.recipeForm.patchValue({
      title: myRecipe.title,
@@ -147,8 +150,9 @@ export class AddRecipeComponent implements OnInit, OnDestroy {
   onSubmit(){
     this.spinner = true;
     const myRecipe: RecipeInfoModel = this.recipeForm.getRawValue();
-
+    /*
     myRecipe.ingredients = this.convertToIngrInfo(myRecipe);
+
     myRecipe.myRecipe = true;
     myRecipe.id =  "#"+(Math.random() * 1).toString().split('.')[1].split('').slice(0,6).join("");
 
@@ -159,6 +163,7 @@ export class AddRecipeComponent implements OnInit, OnDestroy {
           console.log(error);
           this.spinner = false;
       });
+   */
   }
 
 
@@ -175,12 +180,13 @@ export class AddRecipeComponent implements OnInit, OnDestroy {
       cooking_time: 99,
       myRecipe: true
     }
+    /*
     this.dataStorage.myRecipesUpdate(true, unUsedMyRecipeObject, this.recipeID, true )
       .subscribe(res => {
         this.myRecipeResponse(res);
       }, error => {
         console.log(error);
         this.spinner = false;
-      });
+      });*/
   }
 }

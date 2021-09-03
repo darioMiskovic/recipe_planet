@@ -25,7 +25,7 @@ export class RecipeComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private recipeService: RecipesService,
     private dataStorage: DataStorageService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
 
@@ -53,9 +53,10 @@ export class RecipeComponent implements OnInit, OnDestroy {
     this.spinner = true;
     this.recipeStatus = false;
 
+    //My recipe
     if(id[0] === '#'){
       this.spinner = false;
-      const myRecipeInfo = this.recipeService.myRecipes.find((recipe: RecipeInfoModel) => recipe.id === id)
+      const myRecipeInfo = this.recipeService.myRecipes.find((recipe: RecipeInfoModel) => recipe.recipe_key === id)
       if(myRecipeInfo){
         this.recipeInfo = myRecipeInfo;
         this.recipeStatus = true;
@@ -83,7 +84,7 @@ export class RecipeComponent implements OnInit, OnDestroy {
       const recipe: RecipeModel = {
         publisher: this.recipeInfo.publisher,
         title: this.recipeInfo.title,
-        id: this.recipeInfo.id,
+        recipe_key: this.recipeInfo.recipe_key,
         image_url: this.recipeInfo.image_url
       }
       this.dataStorage.addBookmark(recipe);
@@ -91,7 +92,7 @@ export class RecipeComponent implements OnInit, OnDestroy {
     }else{
       this.bookmarkID = !this.bookmarkID;
       this.bookmarks = this.bookmarks.filter(bookmark => bookmark.id !== this.recipeInfo.id);
-      this.dataStorage.removeBookmark(this.recipeInfo.id);
+      //this.dataStorage.removeBookmark(this.recipeInfo.id);
     }
   }
 }

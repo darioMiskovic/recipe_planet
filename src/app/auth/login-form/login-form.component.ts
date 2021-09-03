@@ -23,17 +23,13 @@ export class LoginFormComponent implements OnInit {
     this.spinner = true;
 
    const data = {
-     username: loginForm.value.email,
-     password: loginForm.value.password,
-     grant_type: 'password',
-     client_id: 2,
-     client_secret: 'NI6eKei5m2FanLdPSNsi22VMRquQKFkso0VW41tZ',
-     scope: '*'
+     email: loginForm.value.email,
+     password: loginForm.value.password
    }
 
-    this.http.post('http://127.0.0.1:8000/oauth/token', data).subscribe((res: any) => {
+    this.http.post('https://localhost:44317/api/Account/login', data).subscribe((res: any) => {
       this.spinner = false;
-      localStorage.setItem('token', res.access_token);
+      localStorage.setItem('token', res.token);
       this.router.navigate(['/']);
 
     }, error => {

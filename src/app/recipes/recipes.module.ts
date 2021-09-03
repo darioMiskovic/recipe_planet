@@ -8,8 +8,6 @@ import {HttpClientModule} from "@angular/common/http";
 import {ReactiveFormsModule} from "@angular/forms";
 import {SharedModule} from "../shared/shared.module";
 import {RecipesRoutingModule} from "./recipes-routing.module";
-
-//NPX Pagination
 import {NgxPaginationModule} from 'ngx-pagination';
 
 @NgModule({
