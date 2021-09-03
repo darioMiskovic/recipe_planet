@@ -13,7 +13,7 @@ export class RecipesComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.dataStorage.fetchBookmarks();
+    //this.dataStorage.fetchBookmarks();
   }
 
 }

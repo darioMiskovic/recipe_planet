@@ -28,9 +28,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+
+
     const subscriber1 = this.dataStorage.currentUser.subscribe((user) => {
       this.activeToken = localStorage.getItem('token') !== null;
       this.currentUser = user!;
+      this.bookmarks = this.currentUser?.favorites;
     });
 
     const subscriber2 = this.recipesService.myBookmarksUpdated.subscribe(

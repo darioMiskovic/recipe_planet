@@ -22,6 +22,7 @@ export class DataStorageService {
   fetchBookmarks() {
     // @ts-ignore
     this.currentUser.subscribe((user) => (this.currentUserID = user.id));
+
     this.http
       .get('http://127.0.0.1:8000/api/bookmark')
       .subscribe((res: any) => {
