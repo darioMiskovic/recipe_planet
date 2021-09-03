@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { RecipesService } from '../recipes/recipes.service';
 import { RecipeModel } from '../recipes/models/recipe.model';
 import { BehaviorSubject } from 'rxjs';
-import { map } from 'rxjs/operators';
+import {map, tap} from 'rxjs/operators';
 import { RecipeInfoModel } from '../recipes/models/recipeInfo.model';
 
 @Injectable({
@@ -18,30 +18,19 @@ export class DataStorageService {
     private recipesService: RecipesService
   ) {}
 
-  //Recipe service
+  //Bookamarks (Favorites)
   fetchBookmarks() {
     // @ts-ignore
     this.currentUser.subscribe((user) => (this.currentUserID = user.id));
 
-    /*this.http
-      .get('http://127.0.0.1:8000/api/bookmark')
-      .subscribe((res: any) => {
-        if (res?.split('<>').length > 0) {
-          const bookmarks = res.split('<>');
-          bookmarks.pop();
-          this.recipesService.myBookmarks = bookmarks.map((bkm: string) =>
-            JSON.parse(bkm)
-          );
-          this.recipesService.myBookmarksUpdated.next(
-            this.recipesService.myBookmarks
-          );
-        } else {
-          this.recipesService.myBookmarks = [];
-          this.recipesService.myBookmarksUpdated.next(
-            this.recipesService.myBookmarks
-          );
-        }
-      });*/
+    this.http
+      .get('https://localhost:44317/api/Account/my-favorites/'+this.currentUserID)
+      .subscribe((bookmarks:any) => {
+
+        this.recipesService.myBookmarks = bookmarks;
+        this.recipesService.myBookmarksUpdated.next(bookmarks);
+
+      });
   }
 
   addBookmark(bookmark: RecipeModel) {
@@ -65,13 +54,10 @@ export class DataStorageService {
   }
 
   removeBookmark(bookmarkId: number) {
-
     const removeIndex = this.recipesService.myBookmarks.findIndex(
       (bookmark) => bookmark.id === bookmarkId
     );
-
     this.recipesService.myBookmarks.splice(removeIndex, 1);
-
     this.http
       .delete('https://localhost:44317/api/Favorite/favorite-delete/'+bookmarkId)
       .subscribe(
@@ -102,28 +88,45 @@ export class DataStorageService {
       );
   }
 
-  //Header component
+  //Fetch My Recipes
   fetchMyRecipes() {
     this.recipesService.loadSpinner.next(true);
-    this.http.get('http://127.0.0.1:8000/api/my-recipe').subscribe(
-      (res: any) => {
-        let myRecipes = res.split('<>');
-        myRecipes.pop();
-        myRecipes = myRecipes.map((recipe: string) => JSON.parse(recipe));
+
+    this.http.get('https://localhost:44317/api/Account/my-recipes/'+this.currentUserID).subscribe(
+      (myRecipes: any) => {
         this.recipesService.loadSpinner.next(false);
         this.recipesService.myRecipeSearch.next(myRecipes);
-        //Store my recipes in recipes service
         this.recipesService.myRecipes = myRecipes;
       },
       (error) => {
         this.recipesService.loadSpinner.next(false);
-        this.recipesService.myRecipes = [];
-        this.recipesService.myRecipeSearch.next([]);
+        console.log(error)
       }
     );
   }
 
+  //Fetch My Recipe Info
+  fetchMyRecipeInfo(recipeId: number) {
+   return  this.http.get<RecipeInfoModel>('https://localhost:44317/api/MyRecipe/my-recipe-info/'+recipeId);
+  }
+
   //Add recipe component
+  addMyRecipe(myRecipe: RecipeInfoModel) {
+
+    this.currentUser.subscribe((user: any) => {
+      if(user.id) (myRecipe.userId = user.id)
+    });
+
+   return  this.http
+      .post('https://localhost:44317/api/MyRecipe/add-my-recipe/', myRecipe).pipe(tap((myRecipe: any) => {
+      this.recipesService.myRecipes.push(myRecipe);
+    }));
+  }
+
+
+
+
+  /*
   myRecipesUpdate(
     update: boolean,
     myRecipe: RecipeInfoModel,
@@ -173,5 +176,7 @@ export class DataStorageService {
           };
         })
       );
-  }
+  }*/
+
+
 }

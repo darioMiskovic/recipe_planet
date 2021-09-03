@@ -7,6 +7,12 @@ import {Subscription} from "rxjs";
 import {ActivatedRoute, Router} from "@angular/router";
 import {DataStorageService} from "../../shared/data-storage.service";
 
+interface MyRecipeResponse {
+  type: string;
+  message: string;
+  delete?: boolean;
+  recipeId?: number;
+}
 
 @Component({
   selector: 'app-add-recipe',
@@ -18,7 +24,7 @@ export class AddRecipeComponent implements OnInit, OnDestroy {
 
   recipeForm!: FormGroup;
   subscription = new Subscription();
-  currentUserID!: number;
+  //currentUserID!: number;
   updateRecipe = false;
   recipeID!: number;
   spinner = false;
@@ -33,10 +39,10 @@ export class AddRecipeComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.init();
-    this.subscription =this.dataStorage.currentUser.subscribe(res => {
-      // @ts-ignore
-      this.currentUserID = res.id;
-    })
+    // this.subscription =this.dataStorage.currentUser.subscribe(res => {
+    //   // @ts-ignore
+    //   this.currentUserID = res.id;
+    // })
 
     this.route.params.subscribe(param => {
       if(param.id){
@@ -129,9 +135,10 @@ export class AddRecipeComponent implements OnInit, OnDestroy {
     return newIngredientsArray;
   }
 
-  myRecipeResponse(response: any){
+  myRecipeResponse(response: MyRecipeResponse){
       this.spinner = false;
-      this.message = response.resMessage;
+      this.message = response.message;
+
       setTimeout(()=>{
         if(response.type === 'added'){
           this.init();
@@ -140,8 +147,8 @@ export class AddRecipeComponent implements OnInit, OnDestroy {
           this.updateRecipe = false;
           this.message = '';
           this.init();
-          response.deleteRecipe ?
-            this.router.navigate(['recipes','add-recipe']) : this.router.navigate(['recipes', response.recipeID]);
+          response.delete ?
+            this.router.navigate(['recipes','add-recipe']) : this.router.navigate(['recipes', response.recipeId]);
         }
       }, 1500)
   }
@@ -150,20 +157,19 @@ export class AddRecipeComponent implements OnInit, OnDestroy {
   onSubmit(){
     this.spinner = true;
     const myRecipe: RecipeInfoModel = this.recipeForm.getRawValue();
-    /*
     myRecipe.ingredients = this.convertToIngrInfo(myRecipe);
+    myRecipe.my_recipe = true;
+    myRecipe.recipe_key =  "myrecipe"+(Math.random() * 1).toString().split('.')[1].split('').slice(0,6).join("");
 
-    myRecipe.myRecipe = true;
-    myRecipe.id =  "#"+(Math.random() * 1).toString().split('.')[1].split('').slice(0,6).join("");
-
-    this.dataStorage.myRecipesUpdate(this.updateRecipe, myRecipe, this.recipeID)
-      .subscribe(res => {
-        this.myRecipeResponse(res);
-      }, error => {
-          console.log(error);
-          this.spinner = false;
-      });
-   */
+    this.dataStorage.addMyRecipe(myRecipe).subscribe(
+      (favoriteRecipe: any) => {
+        this.spinner = false;
+        this.myRecipeResponse({type:'added', message:"Recipe is added successfully"})
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
   }
 
 

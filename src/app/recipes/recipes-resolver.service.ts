@@ -27,8 +27,6 @@ export class RecipesResolverService implements Resolve<UserModel>{
     return this.http.get<UserModel>('https://localhost:44317/api/Account/user/'+userId).pipe(tap((user: any)=> {
       user.id = userId
       this.dataStorage.currentUser.next(user);
-      this.recipeService.myBookmarks = user.favorites;
-      this.recipeService.myBookmarksUpdated.next(user.favorites);
     }));
 
 

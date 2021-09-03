@@ -54,13 +54,16 @@ export class RecipeComponent implements OnInit, OnDestroy {
     this.recipeStatus = false;
 
     //My recipe
-    if(id[0] === '#'){
-      this.spinner = false;
-      const myRecipeInfo = this.recipeService.myRecipes.find((recipe: RecipeInfoModel) => recipe.recipe_key === id)
-      if(myRecipeInfo){
-        this.recipeInfo = myRecipeInfo;
-        this.recipeStatus = true;
-        this.myRecipe = true;
+    if(id.includes('myrecipe')){
+      const myRecipe = this.recipeService.myRecipes.find((recipe: RecipeInfoModel) => recipe.recipe_key === id);
+      if(myRecipe){
+        // @ts-ignore
+        this.dataStorage.fetchMyRecipeInfo(myRecipe.id).subscribe(data => {
+          this.spinner = false;
+          this.recipeInfo = data;
+          this.recipeStatus = true;
+          this.myRecipe = true;
+        });
       }
       return;
     }
@@ -90,8 +93,6 @@ export class RecipeComponent implements OnInit, OnDestroy {
     }else{
       this.bookmarkID = !this.bookmarkID;
       const bookmark = this.bookmarks.find(bk => bk.recipe_key === this.recipeInfo.recipe_key);
-      //this.bookmarks = this.bookmarks.filter(bookmark => bookmark.id !== this.recipeInfo.id);
-      console.log(bookmark);
       if(bookmark?.id != null) this.dataStorage.removeBookmark(bookmark.id);
   }
   }

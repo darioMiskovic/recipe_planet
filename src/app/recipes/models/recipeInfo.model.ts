@@ -10,5 +10,6 @@ export interface RecipeInfoModel{
   ingredients: IngredientInfoModel[];
   servings: number;
   cooking_time: number;
-  myRecipe?: boolean;
+  my_recipe?: boolean;
+  userId?: string
 }

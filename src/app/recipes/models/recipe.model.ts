@@ -5,4 +5,5 @@ export interface RecipeModel{
   title: string;
   image_url: string;
   userId?: string;
+  my_recipe?: boolean;
 }

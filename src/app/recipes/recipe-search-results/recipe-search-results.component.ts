@@ -34,6 +34,7 @@ export class RecipeSearchResultsComponent implements OnInit, OnDestroy {
         recipeArr.length < 1 ? (this.errorMsg = true) : (this.errorMsg = false);
         this.page = 1;
         this.recipesArray = recipeArr;
+        
       }
     );
 
