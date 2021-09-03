@@ -33,7 +33,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     const subscriber1 = this.dataStorage.currentUser.subscribe((user) => {
       this.activeToken = localStorage.getItem('token') !== null;
       this.currentUser = user!;
-      this.bookmarks = this.currentUser?.favorites;
+      //this.bookmarks = this.currentUser?.favorites;
     });
 
     const subscriber2 = this.recipesService.myBookmarksUpdated.subscribe(

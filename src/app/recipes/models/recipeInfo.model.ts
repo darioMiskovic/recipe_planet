@@ -1,7 +1,7 @@
 import {IngredientInfoModel} from "./ingredientInfo.model";
 
 export interface RecipeInfoModel{
-  id: number;
+  id?: number;
   recipe_key: string;
   publisher: string;
   title: string;

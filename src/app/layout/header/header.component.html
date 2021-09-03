@@ -62,7 +62,7 @@
           </div>
 
           <li class="preview" *ngFor="let bookmark of bookmarks">
-            <a class="preview__link" [routerLink]="['/recipes', bookmark.id]">
+            <a class="preview__link" [routerLink]="['/recipes', bookmark.recipe_key]">
               <figure class="preview__fig">
                 <img [src]="bookmark.image_url" [alt]="bookmark.title" />
               </figure>

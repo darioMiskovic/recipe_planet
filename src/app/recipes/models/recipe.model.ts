@@ -4,4 +4,5 @@ export interface RecipeModel{
   publisher: string;
   title: string;
   image_url: string;
+  userId?: string;
 }

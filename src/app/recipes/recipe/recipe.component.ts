@@ -39,7 +39,7 @@ export class RecipeComponent implements OnInit, OnDestroy {
       if(params.id !== undefined){
         this.fetchRecipeDetail(params.id);
         if(this.bookmarks.length > 0){
-          this.bookmarkID = this.bookmarks.some(recipe => recipe.id === params.id)
+          this.bookmarkID = this.bookmarks.some(recipe => recipe.recipe_key === params.id)
         }
       }
     })
@@ -80,7 +80,6 @@ export class RecipeComponent implements OnInit, OnDestroy {
     //Add bookmark
     if(!this.bookmarkID){
       this.bookmarkID = !this.bookmarkID;
-
       const recipe: RecipeModel = {
         publisher: this.recipeInfo.publisher,
         title: this.recipeInfo.title,
@@ -88,11 +87,12 @@ export class RecipeComponent implements OnInit, OnDestroy {
         image_url: this.recipeInfo.image_url
       }
       this.dataStorage.addBookmark(recipe);
-
     }else{
       this.bookmarkID = !this.bookmarkID;
-      this.bookmarks = this.bookmarks.filter(bookmark => bookmark.id !== this.recipeInfo.id);
-      //this.dataStorage.removeBookmark(this.recipeInfo.id);
-    }
+      const bookmark = this.bookmarks.find(bk => bk.recipe_key === this.recipeInfo.recipe_key);
+      //this.bookmarks = this.bookmarks.filter(bookmark => bookmark.id !== this.recipeInfo.id);
+      console.log(bookmark);
+      if(bookmark?.id != null) this.dataStorage.removeBookmark(bookmark.id);
+  }
   }
 }

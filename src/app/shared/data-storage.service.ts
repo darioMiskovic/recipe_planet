@@ -23,7 +23,7 @@ export class DataStorageService {
     // @ts-ignore
     this.currentUser.subscribe((user) => (this.currentUserID = user.id));
 
-    this.http
+    /*this.http
       .get('http://127.0.0.1:8000/api/bookmark')
       .subscribe((res: any) => {
         if (res?.split('<>').length > 0) {
@@ -41,20 +41,19 @@ export class DataStorageService {
             this.recipesService.myBookmarks
           );
         }
-      });
+      });*/
   }
 
   addBookmark(bookmark: RecipeModel) {
     // @ts-ignore
-    this.currentUser.subscribe((user) => (this.currentUserID = user.id));
+    this.currentUser.subscribe((user) => (bookmark.userId = user.id));
+
     this.http
-      .post('http://127.0.0.1:8000/api/bookmark', {
-        bookmark: JSON.stringify(bookmark) + '<>',
-      })
+      .post('https://localhost:44317/api/Favorite/add-favorite-recipe', bookmark)
       .subscribe(
-        (res: any) => {
-          console.log(res);
-          this.recipesService.myBookmarks.push(bookmark);
+        (favoriteRecipe: any) => {
+          console.log(favoriteRecipe);
+          this.recipesService.myBookmarks.push(favoriteRecipe);
           this.recipesService.myBookmarksUpdated.next(
             this.recipesService.myBookmarks
           );
@@ -65,20 +64,16 @@ export class DataStorageService {
       );
   }
 
-  removeBookmark(removeBookmarkID: string) {
-    /*
+  removeBookmark(bookmarkId: number) {
+
     const removeIndex = this.recipesService.myBookmarks.findIndex(
-      (bookmark) => bookmark.id === removeBookmarkID
+      (bookmark) => bookmark.id === bookmarkId
     );
+
     this.recipesService.myBookmarks.splice(removeIndex, 1);
-    const bookmarksArrStringify = this.recipesService.myBookmarks
-      .map((bm) => JSON.stringify(bm) + '<>')
-      .join('');
 
     this.http
-      .post('http://127.0.0.1:8000/api/bookmark/delete', {
-        bookmarks: bookmarksArrStringify,
-      })
+      .delete('https://localhost:44317/api/Favorite/favorite-delete/'+bookmarkId)
       .subscribe(
         (res: any) => {
           console.log(res);
@@ -90,7 +85,7 @@ export class DataStorageService {
           console.log(error);
         }
       );
-    */
+
   }
 
   //Recipe component
@@ -101,7 +96,8 @@ export class DataStorageService {
       )
       .pipe(
         map((recipe: any) => {
-          return recipe.data.recipe;
+          const recipeInfo = {...recipe.data.recipe, recipe_key: recipe.data.recipe.id};
+          return recipeInfo;
         })
       );
   }
@@ -136,10 +132,10 @@ export class DataStorageService {
   ) {
     if (update) {
       if (deleteMyRecipe) {
-        const removeIndex = this.recipesService.myRecipes.findIndex(
-          (recipe) => +recipe.id === recipeID
-        );
-        this.recipesService.myRecipes.splice(removeIndex, 1);
+        // const removeIndex = this.recipesService.myRecipes.findIndex(
+        //   (recipe) => +recipe.id === recipeID
+        // );
+        //this.recipesService.myRecipes.splice(removeIndex, 1);
       } else {
         this.recipesService.myRecipes[recipeID] = myRecipe;
       }
