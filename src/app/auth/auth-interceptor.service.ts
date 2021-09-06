@@ -13,7 +13,6 @@ export class AuthInterceptorService implements HttpInterceptor{
     const idToken = localStorage.getItem('token');
 
     if(idToken){
-
       if(this.jwtHelper.isTokenExpired(idToken)){
         alert("Your session is expired, please login");
         localStorage.removeItem('token');
@@ -24,8 +23,6 @@ export class AuthInterceptorService implements HttpInterceptor{
     }else{
      return  next.handle(req);
     }
-
-    return  next.handle(req);
   }
 }
 

@@ -1,8 +1,6 @@
 <form #f="ngForm" (ngSubmit)="onSubmit(f)" class="userFormBox">
 <app-message *ngIf="message && !errorMsg" appAbsolutePos [messageContent]="message"></app-message>
 <app-message *ngIf="errorMsg" [errorMsg]="errorMsg" [errorMessageContent]="message" appAbsolutePos></app-message>
-<!--<app-message  [errorMsg]="errorMsg" [errorMessageContent]="message" appAbsolutePos></app-message>-->
-
   <app-spinner *ngIf="spinner" appAbsolutePos></app-spinner>
   <img src="../../../assets/img/recipeplanetlogo.png" alt="logo">
   <label for="first_name">First Name</label>

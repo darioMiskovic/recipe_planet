@@ -88,6 +88,9 @@ export class DataStorageService {
 
   //Fetch My Recipes
   fetchMyRecipes() {
+    // @ts-ignore
+    this.currentUser.subscribe((user) => (this.currentUserID = user.id));
+
     this.recipesService.loadSpinner.next(true);
     this.http.get('https://localhost:44317/api/Account/my-recipes/'+this.currentUserID).subscribe(
       (myRecipes: any) => {

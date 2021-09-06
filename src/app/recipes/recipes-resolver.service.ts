@@ -6,7 +6,6 @@ import {HttpClient} from "@angular/common/http";
 import {tap} from "rxjs/operators";
 import {DataStorageService} from "../shared/data-storage.service";
 import {JwtHelperService} from "@auth0/angular-jwt";
-import {RecipesService} from "./recipes.service";
 
 @Injectable({
   providedIn: 'root'
@@ -16,8 +15,7 @@ export class RecipesResolverService implements Resolve<UserModel>{
   constructor(
     private http: HttpClient,
     private dataStorage: DataStorageService,
-    private jwtHelper: JwtHelperService,
-    private recipeService: RecipesService
+    private jwtHelper: JwtHelperService
   ) {}
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<UserModel> | Promise<UserModel> | UserModel {
