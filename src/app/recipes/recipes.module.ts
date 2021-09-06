@@ -10,6 +10,7 @@ import {SharedModule} from "../shared/shared.module";
 import {RecipesRoutingModule} from "./recipes-routing.module";
 import {NgxPaginationModule} from 'ngx-pagination';
 
+
 @NgModule({
   declarations:[
     RecipeComponent,

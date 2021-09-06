@@ -19,34 +19,35 @@
       <label>Prep time</label>
       <input formControlName="cooking_time" type="number" />
       <label>Servings</label>
-      <input formControlName="servings" type="number" />
+      <input formControlName="num_servings" type="number" />
     </div>
 
     <div class="upload__column" formArrayName="ingredients">
       <h3 class="upload__heading">Ingredients</h3>
       <div
         class="upload__ingredient"
-        *ngFor="let _ of ingredients.controls; let i = index"
+        *ngFor="let ingr of ingredients.controls; let i = index"
       >
-        <label [for]="'ingr-' + i">Ingredient {{ i + 1 }}</label>
-        <input
-          [id]="'ingr-' + i"
-          type="text"
-          [formControlName]="i"
-          placeholder="Format: 'Quantity,Unit,Description'"
-        />
-        <button
-          #btnDeleteIngr
-          class="deleteIngrBtn"
-          (click)="onDeleteIngredient(i)"
-          [disabled]="ingredients.length < 2"
-          [ngClass]="{ 'btn-disabled': btnDeleteIngr.disabled }"
-          type="button"
-        >
-          <svg>
-            <use href="../assets/img/icons.svg#icon-cross"></use>
-          </svg>
-        </button>
+        <div [formGroupName]="i">
+          <input
+            type="text"
+            formControlName="ingredientInfo"
+            placeholder="Format: 'Quantity,Unit,Description'"
+          />
+          <button
+            #btnDeleteIngr
+            class="deleteIngrBtn"
+            (click)="onDeleteIngredient(i,ingr.value.id)"
+            [disabled]="ingredients.length < 2"
+            [ngClass]="{ 'btn-disabled': btnDeleteIngr.disabled }"
+            type="button"
+          >
+            <svg>
+              <use href="../assets/img/icons.svg#icon-cross"></use>
+            </svg>
+          </button>
+        </div>
+
       </div>
     </div>
 

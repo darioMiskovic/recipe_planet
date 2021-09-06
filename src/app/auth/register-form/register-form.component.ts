@@ -24,7 +24,7 @@ export class RegisterFormComponent {
       this.message = '';
       this.errorMsg = false;
       if(navigate)this.router.navigate(['login']);
-    }, 2000)
+    }, 3000)
   }
 
   onSubmit(registerForm: NgForm){
@@ -40,7 +40,14 @@ export class RegisterFormComponent {
     this.http.post('https://localhost:44317/api/Account/register', formData, {responseType: 'text'}).subscribe(res => {
       this.responseAction('You have successfully registered', true);
     }, error => {
-      this.responseAction('Email adress is already taken',false, true);
+
+      let errorResponse = '';
+      const objectError = JSON.parse(error.error);
+      for (const property in objectError) {
+        errorResponse += (`${objectError[property][0]}`);
+      }
+
+      this.responseAction(errorResponse,false, true);
     })
   }
 

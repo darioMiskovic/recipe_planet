@@ -5,7 +5,7 @@ import { NgForm } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { UserModel } from '../../recipes/models/user.model';
 import { RecipeModel } from '../../recipes/models/recipe.model';
-import { Router } from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import { DataStorageService } from '../../shared/data-storage.service';
 
 @Component({
@@ -29,11 +29,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
 
-
     const subscriber1 = this.dataStorage.currentUser.subscribe((user) => {
       this.activeToken = localStorage.getItem('token') !== null;
       this.currentUser = user!;
-      //this.bookmarks = this.currentUser?.favorites;
     });
 
     const subscriber2 = this.recipesService.myBookmarksUpdated.subscribe(
@@ -42,8 +40,13 @@ export class HeaderComponent implements OnInit, OnDestroy {
       }
     );
 
+    const subscriber3 = this.dataStorage.tokenExpired.subscribe(token=> {
+      this.activeToken = !token;
+    })
+
     this.subscription.add(subscriber1);
     this.subscription.add(subscriber2);
+    this.subscription.add(subscriber3);
   }
 
   //Search recipe

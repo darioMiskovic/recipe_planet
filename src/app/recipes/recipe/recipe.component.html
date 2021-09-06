@@ -28,7 +28,7 @@
         <use href="../assets/img/icons.svg#icon-users"></use>
       </svg>
       <span class="recipe__info-data recipe__info-data--people">{{
-        recipeInfo.servings
+        recipeInfo.num_servings
       }}</span>
       <span class="recipe__info-text">servings</span>
     </div>
@@ -36,7 +36,7 @@
     <button
       class="btn--round"
       *ngIf="myRecipe"
-      [routerLink]="['/recipes', 'edit', recipeInfo.id]"
+      [routerLink]="['/recipes', 'edit', recipeInfo.recipe_key]"
     >
       <svg class="">
         <use href="../assets/img/icons.svg#icon-edit"></use>

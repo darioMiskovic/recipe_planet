@@ -1,5 +1,7 @@
 import {IngredientInfoModel} from "./ingredientInfo.model";
 
+
+
 export interface RecipeInfoModel{
   id?: number;
   recipe_key: string;
@@ -8,7 +10,7 @@ export interface RecipeInfoModel{
   image_url: string;
   source_url: string;
   ingredients: IngredientInfoModel[];
-  servings: number;
+  num_servings: number;
   cooking_time: number;
   my_recipe?: boolean;
   userId?: string

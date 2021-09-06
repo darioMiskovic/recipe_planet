@@ -59,6 +59,7 @@ export class RecipeComponent implements OnInit, OnDestroy {
       if(myRecipe){
         // @ts-ignore
         this.dataStorage.fetchMyRecipeInfo(myRecipe.id).subscribe(data => {
+          this.recipeService.currentMyRecipe.next(data);
           this.spinner = false;
           this.recipeInfo = data;
           this.recipeStatus = true;

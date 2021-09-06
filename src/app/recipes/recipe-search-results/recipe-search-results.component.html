@@ -13,7 +13,6 @@
     "
   >
     <a  class="preview__link" [routerLink]="recipe.my_recipe ? [recipe.recipe_key] : [recipe.id]">
-<!--    <a  class="preview__link" [routerLink]="recipe.my_recipe ? ['#dadada'] : [recipe.id]">-->
       <figure class="preview__fig">
         <img [src]="recipe.image_url" [alt]="recipe.title" />
       </figure>

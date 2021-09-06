@@ -9,10 +9,22 @@ import {IngredientInfoModel} from "./models/ingredientInfo.model";
 
 export class RecipesService {
 
+  private defaultMyRecipeObj: RecipeInfoModel = {
+    cooking_time: 0,
+    image_url: "",
+    ingredients: [],
+    publisher: "",
+    recipe_key: "",
+    num_servings: 0,
+    source_url: "",
+    title: ""
+  }
+
   recipeSearch = new Subject<RecipeModel[]>();
   myRecipeSearch =  new Subject<RecipeInfoModel[]>();
   myBookmarksUpdated = new BehaviorSubject(this.myBookmarks);
   loadSpinner = new BehaviorSubject(false);
+  currentMyRecipe = new BehaviorSubject<RecipeInfoModel>(this.defaultMyRecipeObj);
 
   currentUserID!: number;
 

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { RecipesService } from '../recipes/recipes.service';
 import { RecipeModel } from '../recipes/models/recipe.model';
-import { BehaviorSubject } from 'rxjs';
+import {BehaviorSubject, Subject} from 'rxjs';
 import {map, tap} from 'rxjs/operators';
 import { RecipeInfoModel } from '../recipes/models/recipeInfo.model';
 
@@ -12,6 +12,7 @@ import { RecipeInfoModel } from '../recipes/models/recipeInfo.model';
 export class DataStorageService {
   currentUser = new BehaviorSubject(null);
   currentUserID!: number;
+  tokenExpired = new Subject<boolean>();
 
   constructor(
     private http: HttpClient,
@@ -26,10 +27,8 @@ export class DataStorageService {
     this.http
       .get('https://localhost:44317/api/Account/my-favorites/'+this.currentUserID)
       .subscribe((bookmarks:any) => {
-
         this.recipesService.myBookmarks = bookmarks;
         this.recipesService.myBookmarksUpdated.next(bookmarks);
-
       });
   }
 
@@ -41,7 +40,6 @@ export class DataStorageService {
       .post('https://localhost:44317/api/Favorite/add-favorite-recipe', bookmark)
       .subscribe(
         (favoriteRecipe: any) => {
-          console.log(favoriteRecipe);
           this.recipesService.myBookmarks.push(favoriteRecipe);
           this.recipesService.myBookmarksUpdated.next(
             this.recipesService.myBookmarks
@@ -91,7 +89,6 @@ export class DataStorageService {
   //Fetch My Recipes
   fetchMyRecipes() {
     this.recipesService.loadSpinner.next(true);
-
     this.http.get('https://localhost:44317/api/Account/my-recipes/'+this.currentUserID).subscribe(
       (myRecipes: any) => {
         this.recipesService.loadSpinner.next(false);
@@ -110,73 +107,45 @@ export class DataStorageService {
    return  this.http.get<RecipeInfoModel>('https://localhost:44317/api/MyRecipe/my-recipe-info/'+recipeId);
   }
 
-  //Add recipe component
+  //Add My Recipe
   addMyRecipe(myRecipe: RecipeInfoModel) {
-
     this.currentUser.subscribe((user: any) => {
       if(user.id) (myRecipe.userId = user.id)
     });
-
    return  this.http
       .post('https://localhost:44317/api/MyRecipe/add-my-recipe/', myRecipe).pipe(tap((myRecipe: any) => {
       this.recipesService.myRecipes.push(myRecipe);
+       this.recipesService.myRecipeSearch.next(this.recipesService.myRecipes);
     }));
   }
 
 
+  //Update My Recipe
+  updateMyRecipe(myRecipe: RecipeInfoModel, myRecipeId: number) {
+    this.currentUser.subscribe((user: any) => {
+      if(user.id) (myRecipe.userId = user.id)
+    });
+    return  this.http
+      .put('https://localhost:44317/api/MyRecipe/my-recipe-update/'+myRecipeId, myRecipe).pipe(tap((myRecipe: any) => {
+        const updatedMyRecipe = myRecipe;
+        updatedMyRecipe.id = myRecipeId;
+        const index = this.recipesService.myRecipes.findIndex(recipe => recipe.id === updatedMyRecipe.id);
+        this.recipesService.myRecipes[index] = updatedMyRecipe;
+      }));
+  }
 
-
-  /*
-  myRecipesUpdate(
-    update: boolean,
-    myRecipe: RecipeInfoModel,
-    recipeID = 0,
-    deleteMyRecipe = false
-  ) {
-    if (update) {
-      if (deleteMyRecipe) {
-        // const removeIndex = this.recipesService.myRecipes.findIndex(
-        //   (recipe) => +recipe.id === recipeID
-        // );
-        //this.recipesService.myRecipes.splice(removeIndex, 1);
-      } else {
-        this.recipesService.myRecipes[recipeID] = myRecipe;
-      }
-
-      const updatedMyRecipesArr = this.recipesService.myRecipes
-        .map((recipe) => JSON.stringify(recipe) + '<>')
-        .join('');
-      return this.http
-        .post('http://127.0.0.1:8000/api/my-recipe/update', {
-          my_recipe: updatedMyRecipesArr,
-        })
-        .pipe(
-          map((response: any) => {
-            return {
-              type: response.split(' ')[2],
-              resMessage: response,
-              deleteRecipe: deleteMyRecipe,
-              recipeID: myRecipe.id,
-            };
-          })
-        );
-    }
-
-    this.recipesService.myRecipes.push(myRecipe);
-    this.recipesService.myRecipeSearch.next(this.recipesService.myRecipes);
+//Delete My Recipe
+  deleteMyRecipe(id: number){
     return this.http
-      .post('http://127.0.0.1:8000/api/my-recipe', {
-        my_recipe: JSON.stringify(myRecipe) + '<>',
-      })
-      .pipe(
-        map((response: any) => {
-          return {
-            type: response.split(' ')[3],
-            resMessage: response,
-          };
-        })
-      );
-  }*/
+      .delete('https://localhost:44317/api/MyRecipe/my-recipe-delete/'+id);
+  }
+
+//Delete Ingredient
+  deleteIngredient(id: number){
+   return this.http
+      .delete('https://localhost:44317/api/Ingredient/delete-ingredient/'+id);
+
+  }
 
 
 }

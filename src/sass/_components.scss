@@ -186,9 +186,9 @@
 }
 
 .custom-spinner {
-  background: rgba(247, 169, 133, 75%);
+  background: rgba(247, 169, 133, 90%);
   position: absolute;
-  width: 50%;
+  min-width: 82%;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -210,10 +210,9 @@
 }
 
 .message {
-  max-width: 40rem;
+  max-width: max-content;
   margin: 0 auto;
   padding: 5rem 4rem;
-
   display: flex;
 
   svg {
